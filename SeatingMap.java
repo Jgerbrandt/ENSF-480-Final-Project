@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.lang.String;
-
 class SeatingMap{
     private int[][] seats;
     private boolean tenPercentSold = false; 

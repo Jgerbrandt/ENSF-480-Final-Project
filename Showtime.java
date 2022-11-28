@@ -2,13 +2,13 @@ import java.lang.String;
 import java.util.Date;
 
 class Showtime {
-    private final String MOVIE;
+    private String movie;
     private int screen;
     private Date releaseDate;
     private Date earlyAccess;
     SeatingMap seatMap;
 
-    public Showtime(){};
+    //public Showtime(){};
 
     //getters
     public String getMovie() { return this.movie; }
