@@ -12,4 +12,11 @@ class Login{
 
         return loginInstance;
     }
+
+    /*
+     * Verifies if User is registered
+     */
+    public void verifyUser(String user, String password){
+
+    }
 }
