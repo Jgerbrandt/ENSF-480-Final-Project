@@ -4,9 +4,7 @@ class Theatre{
     private Vector<Showtime> showtimes;
     private Vector<String> movies;
 
-    public Theatre(){
-        //call to movie DB to fill?
-    }
+    public Theatre(){}
 
     public Vector<Showtime> getShowtimes(){
         return this.showtimes;
