@@ -10,6 +10,8 @@ class Theatre {
 	//string arraylist for the movienames
 	private List<String> movieNames = new ArrayList<String>();
 	
+	private LoginServer loginserver = LoginServer.getOnlyInstance();
+	
 	
 	
 	public Theatre() {
