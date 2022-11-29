@@ -7,6 +7,7 @@ class Theatre {
 	//order has orderid/ticketid/movie name/seat number/showtime time
 	private List<Order> orders = new ArrayList<Order>();
 	
+	//string arraylist for the movienames
 	private List<String> movieNames = new ArrayList<String>();
 	
 	
@@ -14,6 +15,7 @@ class Theatre {
 	public Theatre() {
 		showtimes = MovieDatabase.readShowtimes();
 		orders = MovieDatabase.readOrders();	
+		movieNames = MovieDatabase.getMovies();
 	}
 	
 	
