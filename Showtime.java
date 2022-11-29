@@ -5,15 +5,14 @@ class Showtime {
     private int screen;
     private String releaseDate; //dd-mm-yyyy
     private String earlyAccess;
-    private String time; //hh-mm
+    private int time; //hh-mm
     SeatingMap seatMap;
 
-    public Showtime(String m, String s, String rd, String ea, String t){
+    public Showtime(int t, String m, int s, String rd){
         this.movie = m;
-        this.screen = Integer.valueOf(s);
-        this.releaseDate = rd;
-        this.earlyAccess = ea;
+        this.screen = s;
         this.time = t;
+        this.releaseDate = rd;
         this.seatMap = new SeatingMap();
     }
 
