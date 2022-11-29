@@ -9,7 +9,7 @@ class MovieDatabase implements FileOperations {
 			Statement selectAllStatement = initializeConnection().createStatement();
 			ResultSet results = selectAllStatement.executeQuery("SELECT * FROM Showtime");
 			while (results.next()) {
-				Showtime showtime = new Showtime(results.getInt("Time"), results.getString("MovieName"), results.getInt("ScreenNumber");
+				Showtime showtime = new Showtime(results.getInt("Time"), results.getString("MovieName"), results.getInt("ScreenNumber"), results.getString("ReleaseDate"));
 				showtimes.add(showtime);
 			}
 			selectAllStatement.close();
