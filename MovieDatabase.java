@@ -48,6 +48,21 @@ class MovieDatabase implements FileOperations {
 		}
 	}	
 	
+	public static List<String> getMovieNames() {
+		try {
+			List<String> movieNames = new ArrayList<String>();
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT DISTINCT MovieName FROM Showtime");
+			while (results.next()) {
+				movieNames.add(results.getString("MovieName"));
+			}
+			selectAllStatement.close();
+			return movieNames;
+		} catch (SQLException ex) {
+			System.out.println("SQL exception has occured.");
+		}
+		
+	}
 	
 	public static void removeOrder(int id) {
 		try {
