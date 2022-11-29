@@ -1,13 +1,13 @@
-class Login{
-    private static Login loginInstance;
+class LoginServer{
+    private static LoginServer loginInstance;
 
-    private Login(){
+    private LoginServer(){
 
     }
 
-    public static Login getLoginInstance(){
+    public static LoginServer getLoginInstance(){
         if(loginInstance == null){
-            loginInstance = new Login();
+            loginInstance = new LoginServer();
         }
 
         return loginInstance;
@@ -17,7 +17,7 @@ class Login{
      * Verifies if User is registered
      */
     public boolean verifyUser(String email, String password){
-
+        
         return false;
     }
 
