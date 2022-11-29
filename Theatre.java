@@ -17,7 +17,7 @@ class Theatre {
 	public Theatre() {
 		showtimes = MovieDatabase.readShowtimes();
 		orders = MovieDatabase.readOrders();	
-		movieNames = MovieDatabase.getMovies();
+		movieNames = MovieDatabase.getMovieNames();
 	}
 	
 	
