@@ -3,6 +3,31 @@ import java.util.*;
 
 class MovieDatabase implements FileOperations {
 	
+	public static int getMaxOrderID() {
+		try {
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(OrderID) FROM Order");
+			if (results.next()) {
+				Order.OrderIDCounter = results.getInt(1);
+			}
+
+		} catch (SQLException ex) {
+			System.out.println("SQL exception has occured.");
+		}		
+	}
+	
+	public static int getMaxTicketID() {
+		try {
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(TicketID) FROM Ticket");
+			if (results.next()) {
+				Ticket.TicketIDCounter = results.getInt(1);
+			}
+		} catch (SQLException ex) {
+			System.out.println("SQL exception has occured.");
+		}		
+	}
+	
 	public static List<Showtime> readShowtimes() {
 		try {
 			List<Showtime> showtimes = new ArrayList<Showtime>();
@@ -31,7 +56,7 @@ class MovieDatabase implements FileOperations {
 				int orderID = results.getInt("OrderID");
 				Order order = new Order(orderID, results.getString("Email"));
 				selectTickets.setInt(1, orderID);
-				ResultSet tickets = selectTickets.executeStatement();
+				ResultSet tickets = selectTickets.executeQuery();
 				while (tickets.next()) {
 					order.addTicket(new Ticket(tickets.getInt("TicketID"),
 					tickets.getString("MovieName"),
