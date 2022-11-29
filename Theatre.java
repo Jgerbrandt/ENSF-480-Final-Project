@@ -18,6 +18,8 @@ class Theatre {
 		showtimes = MovieDatabase.readShowtimes();
 		orders = MovieDatabase.readOrders();	
 		movieNames = MovieDatabase.getMovieNames();
+		setMaxOrderID();
+		setMaxTicketID();
 	}
 	
 	
