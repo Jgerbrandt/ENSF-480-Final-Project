@@ -1,5 +1,4 @@
 import java.lang.String;
-import java.util.Date;
 
 class Showtime {
     private String movie;
@@ -9,7 +8,14 @@ class Showtime {
     private String time; //hh-mm
     SeatingMap seatMap;
 
-    //public Showtime(){};
+    public Showtime(String m, String s, String rd, String ea, String t){
+        this.movie = m;
+        this.screen = Integer.valueOf(s);
+        this.releaseDate = rd;
+        this.earlyAccess = ea;
+        this.time = t;
+        this.seatMap = new SeatingMap();
+    }
 
     //getters
     public String getMovie() { return this.movie; }
