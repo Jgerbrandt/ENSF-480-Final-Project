@@ -21,7 +21,7 @@ class Showtime {
     public int getScreen() { return this.screen; }
     public String getReleaseDate() { return this.releaseDate; }
     public String getEarlyAccess() { return this.earlyAccess; }
-    public String getTime() {return this.time; }
+    public int getTime() {return this.time; }
     public SeatingMap getSeatMap() { return this.seatMap; }
 
     //setters
@@ -29,5 +29,5 @@ class Showtime {
     public void setScreen(int screen){ this.screen = screen; }
     public void setReleaseDate(String rd){ this.releaseDate = rd; }
     public void setEarlyAccess(String ea){ this.earlyAccess = ea; }
-    public void setTime(String time){ this.time = time; }
+    public void setTime(int time){ this.time = time; }
 }
