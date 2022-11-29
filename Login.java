@@ -16,7 +16,15 @@ class Login{
     /*
      * Verifies if User is registered
      */
-    public void verifyUser(String user, String password){
+    public boolean verifyUser(String email, String password){
+
+        return false;
+    }
+
+    /*
+     * Adds an Ordinary User to the User Database
+     */
+    public void signUp(String email, String cardInfo, String password){
 
     }
 }
