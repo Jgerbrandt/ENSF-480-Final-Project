@@ -3,7 +3,7 @@ import java.util.*;
 
 class MovieDatabase implements FileOperations {
 	
-	public static int getMaxOrderID() {
+	public static void setMaxOrderID() {
 		try {
 			Statement selectAllStatement = initializeConnection().createStatement();
 			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(OrderID) FROM Order");
@@ -16,7 +16,7 @@ class MovieDatabase implements FileOperations {
 		}		
 	}
 	
-	public static int getMaxTicketID() {
+	public static void setMaxTicketID() {
 		try {
 			Statement selectAllStatement = initializeConnection().createStatement();
 			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(TicketID) FROM Ticket");
