@@ -1,5 +1,7 @@
+import java.util.*;
+
 class LoginServer{
-    private static LoginServer loginInstance;
+    private static LoginServer loginInstance; 
 
     private LoginServer(){
 
@@ -24,7 +26,8 @@ class LoginServer{
     /*
      * Adds an Ordinary User to the User Database
      */
-    public void signUp(String email, String cardInfo, String password){
-
+    public void signUp(String email, String password, String name, String address, String cardInfo){
+        
     }
+
 }
