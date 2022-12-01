@@ -1,6 +1,8 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 class UserDatabase implements FileOperations{
@@ -21,5 +23,25 @@ class UserDatabase implements FileOperations{
         } catch (SQLException ex){
             System.out.println("Failed to add user" + name);
         }
-    }  
+    }
+    
+    public static User matchUser(String email, String password){
+        try{
+            String query = "SELECT email, password FROM Registered_User WHERE email = ? AND password = ?";
+            Statement selectMatchingUser = initializeConnection().createStatement();
+            ResultSet result = selectMatchingUser.executeQuery(query);
+            if(result.next()){
+                User u = new User(result.getString("email"), result.getString("password"), result.getString("name"), result.getString("address"), result.getString("cardInfo");
+                selectMatchingUser.close();
+                return u;
+            }
+            else{
+                selectMatchingUser.close();
+                return null;
+            }
+
+        } catch(SQLException ex){
+            System.out.println("Failed to match user with email: " + email + " to User Database");
+        }
+    }
 }
