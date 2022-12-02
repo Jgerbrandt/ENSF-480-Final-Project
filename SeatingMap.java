@@ -2,6 +2,7 @@ class SeatingMap{
     private int[][] seats;
     private boolean tenPercentSold = false; 
     private boolean soldOut = false;
+    private static double price = 10;
 
     public SeatingMap(){
         this.seats = new int[10][10];
@@ -15,6 +16,7 @@ class SeatingMap{
     public int[][] getSeats() { return this.seats; }
     public boolean getTenPercent() {return this.tenPercentSold; }
     public boolean getSoldOut() { return this.soldOut; }
+    public static double getPrice(){ return price; }
 
     public boolean checkSoldOut(){
         int count = 0;
@@ -49,6 +51,4 @@ class SeatingMap{
             return false;
         }
     }
-
-    
 }
