@@ -19,15 +19,8 @@ class LoginServer{
     /*
      * Verifies if User is registered
      */
-    public boolean verifyUser(String email, String password){
+    public User verifyUser(String email, String password){
         User u = UserDatabase.matchUser(email, password);
-
-        if(u != null){
-            return true;
-        } 
-        else{
-            return false;
-        }
     }
 
     /*
