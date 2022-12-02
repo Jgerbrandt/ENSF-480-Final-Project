@@ -1,17 +1,28 @@
-import java.util.Vector;
-import java.lang.String;
+import java.util.*;
 
-class Theatre{
-    private Vector<Showtime> showtimes;
-    private Vector<String> movies;
-
-    public Theatre(){}
-
-    public Vector<Showtime> getShowtimes(){
-        return this.showtimes;
-    }
-
-    public Vector<String> getMovies(){
-        return this.movies();
-    }
+class Theatre {
+	//showtime has time/name/screen
+	private List<Showtime> showtimes = new ArrayList<Showtimes>();
+	
+	//order has orderid/ticketid/movie name/seat number/showtime time
+	private List<Order> orders = new ArrayList<Order>();
+	
+	//string arraylist for the movienames
+	private List<String> movieNames = new ArrayList<String>();
+	
+	private LoginServer loginserver = LoginServer.getOnlyInstance();
+	
+	
+	
+	public Theatre() {
+		showtimes = MovieDatabase.readShowtimes();
+		orders = MovieDatabase.readOrders();	
+		movieNames = MovieDatabase.getMovieNames();
+		setMaxOrderID();
+		setMaxTicketID();
+	}
+	
+	
+	
+	
 }
