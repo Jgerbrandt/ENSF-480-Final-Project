@@ -51,4 +51,8 @@ public class SeatingMap{
             return false;
         }
     }
+
+    public void buySeats(int[] seatPair) {
+        this.seats[seatPair[0]][seatPair[1]] = 1;
+    }
 }
