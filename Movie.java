@@ -19,6 +19,8 @@ public class Movie {
     public String getTitle() { return this.title; }
     public LocalDate getReleaseDate() { return this.releaseDate; }
     public LocalDate getEarlyAccess() { return this.earlyAccess; }
+    public Showtime getShowtime(int index){ return this.showtimes.get(index);}
+    public List<Showtime> getShowtimes(){ return this.showtimes; }
 
     public void setTitle(String t){ this.title = t; }
     public void setReleaseDate(String rd){ this.releaseDate = LocalDate.parse(rd, DateTimeFormatter.ofPattern("dd-MM-yyyy")); }

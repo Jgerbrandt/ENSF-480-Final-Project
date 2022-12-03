@@ -24,6 +24,7 @@ public class Showtime {
     public SeatingMap getSeats() { return this.seatMap; }
     public int getID() {return this.id; }
     public LocalDate getShowDate(){return this.showDate;}
+    public static int getCounter() { return counter; }
 
     //setters
     public void setScreen(int screen){ this.screen = screen; }
