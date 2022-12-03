@@ -1,33 +1,42 @@
 import java.lang.String;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-class Showtime {
-    private String movie;
+public class Showtime {
+    private static int counter = 1;
+    private int id;
     private int screen;
-    private String releaseDate; //dd-mm-yyyy
-    private String earlyAccess;
-    private int time; //hh-mm
+    private LocalDate showDate;
+    private String time; //hh:mmam/pm
     SeatingMap seatMap;
 
-    public Showtime(int t, String m, int s, String rd){
-        this.movie = m;
+    public Showtime(int s, String sd, String t){
+        setID();
         this.screen = s;
         this.time = t;
-        this.releaseDate = rd;
+        setShowDate(sd);
         this.seatMap = new SeatingMap();
     }
 
     //getters
-    public String getMovie() { return this.movie; }
     public int getScreen() { return this.screen; }
-    public String getReleaseDate() { return this.releaseDate; }
-    public String getEarlyAccess() { return this.earlyAccess; }
-    public int getTime() {return this.time; }
-    public SeatingMap getSeatMap() { return this.seatMap; }
+    public String getTime() {return this.time; }
+    public SeatingMap getSeats() { return this.seatMap; }
+    public int getID() {return this.id; }
+    public LocalDate getShowDate(){return this.showDate;}
 
     //setters
-    public void setMovie(String movie){ this.movie = movie; }
     public void setScreen(int screen){ this.screen = screen; }
-    public void setReleaseDate(String rd){ this.releaseDate = rd; }
-    public void setEarlyAccess(String ea){ this.earlyAccess = ea; }
-    public void setTime(int time){ this.time = time; }
+    public void setTime(String time){ this.time = time; }
+    public void setShowDate(String sd){ this.showDate = LocalDate.parse(sd, DateTimeFormatter.ofPattern("dd-MM-yyyy")); }
+    public void setID(){
+        this.id = counter;
+        incrementCounter();
+    }
+
+    private static void incrementCounter(){
+        counter++;
+    }
+
+
 }
