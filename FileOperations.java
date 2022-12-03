@@ -12,7 +12,7 @@ interface FileOperations {
 	/**
 	 * mySQL password
 	 */
-	static final String PASSWORD = "masterpiece4325";
+	static final String PASSWORD = "";
 
 	/**
 	 * Default method to connect to the inventory.
