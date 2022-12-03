@@ -5,7 +5,7 @@ public class ShowtimeTest {
         Showtime st1 = new Showtime(1, "12-12-2022", "9:30am");
 
         System.out.println("TEST MEMBERS");
-        System.out.print("EXPECTED VALUES:\nCounter: 2\nID: 1\nScreen: 1\nShowDate: 12 December 2022\nTime: 9:30am\n");
+        System.out.print("EXPECTED VALUES:\nCounter: 2\nID: 1\nScreen: 1\nShowDate: December 12, 2022\nTime: 9:30am\n");
 
         System.out.println("ACTUAL VALUES:");
         System.out.println("Counter: " + Integer.toString(Showtime.getCounter()));
