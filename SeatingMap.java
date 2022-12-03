@@ -1,4 +1,4 @@
-class SeatingMap{
+public class SeatingMap{
     private int[][] seats;
     private boolean tenPercentSold = false; 
     private boolean soldOut = false;
