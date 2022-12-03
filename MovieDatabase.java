@@ -1,70 +1,112 @@
-
 import java.util.*;
-
+import java.sql.*;
 class MovieDatabase implements FileOperations {
 	
-	public static List<Showtime> readShowtimes() {
+	public void setMaxOrderID() {
 		try {
-			List<Showtime> showtimes = new ArrayList<Showtime>();
 			Statement selectAllStatement = initializeConnection().createStatement();
-			ResultSet results = selectAllStatement.executeQuery("SELECT * FROM Showtime");
-			while (results.next()) {
-				Showtime showtime = new Showtime(results.getInt("Time"), results.getString("MovieName"), results.getInt("ScreenNumber");
-				showtimes.add(showtime);
+			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(OrderID) FROM orders");
+			if (results.next()) {
+				Order.OrderIDCounter = results.getInt(1);
 			}
-			selectAllStatement.close();
-			return showtimes;
+
 		} catch (SQLException ex) {
-			System.out.println("SQL exception has occured.");
-		}
+			System.out.println("SQL exception has occured in maxOrder.");
+		}		
 	}
 	
-	public static List<Order> readOrders() {
+	public void setMaxTicketID() {
 		try {
-			List<Order> orders = new ArrayList<Order>();
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(TicketID) FROM ticket");
+			if (results.next()) {
+				Ticket.TicketIDCounter = results.getInt(1);
+			}
+		} catch (SQLException ex) {
+			System.out.println("SQL exception has occured in maxTicket.");
+		}		
+	}
+	
+	public void setMaxShowtimeID() {
+		try {
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(ShowtimeID) FROM showtime");
+			if (results.next()) {
+				Showtime.ShowtimeIDCounter = results.getInt(1);
+			}
+		} catch (SQLException ex) {
+			System.out.println("SQL exception has occured in maxShowtime.");
+		}		
+	}
+	
+	public List<Movie> readMovies() {
+		List<Movie> movies = new ArrayList<Movie>();
+		try {
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT * FROM movie");
+			String query = "SELECT * FROM showtime WHERE MovieName IN (SELECT MovieName FROM movie WHERE MovieName = ?)";
+			Connection con = initializeConnection();
+			PreparedStatement selectShowtimes = con.prepareStatement(query);
+			while (results.next()) {
+				String movieName = results.getString("MovieName");
+				Movie movie = new Movie(movieName,results.getString("ReleaseDate"));
+				selectShowtimes.setString(1, movieName);
+				ResultSet showtimes = selectShowtimes.executeQuery();
+				while (showtimes.next()) {
+					movie.addShowtime(showtimes.getInt("ShowtimeID"),
+					showtimes.getInt("Screen"),
+					showtimes.getString("Date"),
+					showtimes.getString("Time"));
+				}
+				movies.add(movie);
+			}
+			selectShowtimes.close();
+			selectAllStatement.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println("SQL exception has occured in readMovies.");
+		}
+		return movies;
+	}
+	
+	public List<Order> readOrders() {
+		List<Order> orders = new ArrayList<Order>();
+		try {
 			Statement selectOrders = initializeConnection().createStatement();
-			ResultSet orders = selectOrders.executeQuery("SELECT * FROM Order");
-			String query = "SELECT * FROM Ticket WHERE OrderID IN (SELECT OrderID FROM Order WHERE OrderID = ?";
+			ResultSet results = selectOrders.executeQuery("SELECT * FROM orders");
+			String query = "SELECT * FROM ticket WHERE OrderID IN (SELECT OrderID FROM orders WHERE OrderID = ?)";
 			Connection con = initializeConnection();
 			PreparedStatement selectTickets = con.prepareStatement(query);
-			while (orders.next()) {
+			while (results.next()) {
+				Order order;
 				int orderID = results.getInt("OrderID");
-				Order order = new Order(orderID, results.getString("Email"));
+				String email = results.getString("RegisteredEmail");
+				if (results.wasNull()) {
+					order = new Order(orderID, results.getString("OrdinaryEmail"));
+				}
+				else {
+					order = new Order(orderID, email);
+				}
 				selectTickets.setInt(1, orderID);
-				ResultSet tickets = selectTickets.executeStatement();
+				ResultSet tickets = selectTickets.executeQuery();
 				while (tickets.next()) {
 					order.addTicket(new Ticket(tickets.getInt("TicketID"),
-					tickets.getString("MovieName"),
-					tickets.getInt("SeatColumn"),
-					tickets.getInt("SeatRow");
-					tickets.getInt("Time")));
+					tickets.getInt("SColumn"),
+					tickets.getInt("SRow"),
+					tickets.getInt("ShowtimeID")));
 				}
-				selectTickets.close();
+				orders.add(order);
 			}
+			selectTickets.close();
 			selectOrders.close();
-			return orders;
 		} catch (SQLException ex) {
-			System.out.println("SQL exception has occured.");
+			ex.printStackTrace();
+			System.out.println("SQL exception has occured in readOrders.");
 		}
+		return orders;
 	}	
 	
-	public static List<String> getMovieNames() {
-		try {
-			List<String> movieNames = new ArrayList<String>();
-			Statement selectAllStatement = initializeConnection().createStatement();
-			ResultSet results = selectAllStatement.executeQuery("SELECT DISTINCT MovieName FROM Showtime");
-			while (results.next()) {
-				movieNames.add(results.getString("MovieName"));
-			}
-			selectAllStatement.close();
-			return movieNames;
-		} catch (SQLException ex) {
-			System.out.println("SQL exception has occured.");
-		}
-		
-	}
-	
-	public static void removeOrder(int id) {
+	public void removeOrder(int id) {
 		try {
 			String query = "DELETE FROM Order WHERE OrderID = ?";
 			Connection con = initializeConnection();
