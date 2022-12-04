@@ -101,16 +101,16 @@ class MovieDatabase implements FileOperations {
 		return movies;
 	}
 	
-	public void addTicketToDB(int ticketID, int orderID, int row, int col, int showtimeID) {
+	public void addTicketToDB(Ticket ticket, orderID) {
 		try {
 			String query = "INSERT INTO ticket VALUES (?,?,?,?,?)";
 			Connection con = initializeConnection();
 			PreparedStatement insertStatement = con.prepareStatement(query);
-			insertStatement.setInt(1, ticketID);
+			insertStatement.setInt(1, ticket.getTicketID());
 			insertStatement.setInt(2, orderID);
-			insertStatement.setInt(3, row);
-			insertStatement.setInt(4, col);
-			insertStatement.setInt(5, showtimeID);
+			insertStatement.setInt(3, ticket.getSeatRow());
+			insertStatement.setInt(4, ticket.getSeatColumn());
+			insertStatement.setInt(5, ticket.getshowtimeID);
 			insertStatement.executeUpdate();
 			insertStatement.close();
 			closeConnection(con);
@@ -131,6 +131,10 @@ class MovieDatabase implements FileOperations {
 			insertStatement.executeUpdate();
 			insertStatement.close();
 			closeConnection(con);
+			Iterator<Ticket> tickets = order.getTickets().iterator();
+			while (tickets.hasNext()) {
+				addTicketToDB(ticket.next(), order.getOrderID());	
+			}
 		} catch (SQLException ex) {
 			System.out.println("Could not insert order " + orderID);
 		}	
