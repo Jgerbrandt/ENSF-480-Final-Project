@@ -2,24 +2,22 @@ import java.time.format.*;
 
 public class ShowtimeTest {
     public static void main(String[] args){
-        Showtime st1 = new Showtime(1, "12-12-2022", "9:30am");
+        Showtime st1 = new Showtime(1, 1, "12-12-2022", "9:30am");
 
         System.out.println("TEST MEMBERS");
-        System.out.print("EXPECTED VALUES:\nCounter: 2\nID: 1\nScreen: 1\nShowDate: December 12, 2022\nTime: 9:30am\n");
+        System.out.print("EXPECTED VALUES:\nID: 1\nScreen: 1\nShowDate: December 12, 2022\nTime: 9:30am\n");
 
         System.out.println("ACTUAL VALUES:");
-        System.out.println("Counter: " + Integer.toString(Showtime.getCounter()));
         System.out.println("ID: " + Integer.toString(st1.getID()));
         System.out.println("Screen: " + Integer.toString(st1.getScreen()));
         System.out.println("ShowDate: " + st1.getShowDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
         System.out.println("Time: " + st1.getTime());
 
-        Showtime st2 = new Showtime(1, "24-12-2022", "12:00pm");
+        Showtime st2 = new Showtime(2, 1, "24-12-2022", "12:00pm");
         System.out.println("Test ID Logic");
-        System.out.print("EXPECTED VALUES:\nCounter: 3\nID: 2\n");
+        System.out.print("EXPECTED VALUES:\nID: 2\n");
 
         System.out.println("ACTUAL VALUES:");
-        System.out.println("Counter: " + Integer.toString(Showtime.getCounter()));
         System.out.println("ID: " + Integer.toString(st2.getID()));
 
         System.out.println("Test SeatingMap Logic");
@@ -59,7 +57,7 @@ public class ShowtimeTest {
             System.out.println("Ten Percent Full");
         }
         else{
-            System.out.println("NOt Ten Percent Full");
+            System.out.println("Not Ten Percent Full");
         }
 
         System.out.println("Check Sold Out");

@@ -46,8 +46,17 @@ public class Movie {
         }
     }
 
-    public void addShowtime(int screen, String date, String time){
-        Showtime newShow = new Showtime(screen, date, time);
+    public void addShowtime(int id, int screen, String date, String time){
+        Showtime newShow = new Showtime(id, screen, date, time);
         this.showtimes.add(newShow);
     }
+
+    public void display() {
+		System.out.println(title);
+		System.out.println(releaseDate.toString());
+		System.out.println(earlyAccess.toString());
+		for(int i =0; i < showtimes.size(); i++) {
+			showtimes.get(i).display();
+		}
+	}
 }

@@ -73,11 +73,10 @@ public class MovieTest {
 
         System.out.println();
         System.out.println("TEST addShowtime");
-        m1.addShowtime(1, "03-12-2022", "4:20pm");
+        m1.addShowtime(1, 1, "03-12-2022", "4:20pm");
 
-        System.out.print("EXPECTED VALUES:\nCounter: 2\nID: 1\nScreen: 1\nShowDate: December 3, 2022\nTime: 4:20pm\n");
+        System.out.print("EXPECTED VALUES:\nID: 1\nScreen: 1\nShowDate: December 3, 2022\nTime: 4:20pm\n");
         System.out.println("ACTUAL VALUES:");
-        System.out.println("Counter: " + Integer.toString(Showtime.getCounter()));
         System.out.println("ID: " + Integer.toString(m1.getShowtime(0).getID()));
         System.out.println("Screen: " + Integer.toString(m1.getShowtime(0).getScreen()));
         System.out.println("ShowDate: " + m1.getShowtime(0).getShowDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
