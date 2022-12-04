@@ -68,8 +68,7 @@ public class UserController{
     public User signUp(User user){
 		LocalDate lt = LocalDate.now();
 		String annualDate = lt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		user.setRenewalDateString(annualDate);
-		user.setRenewalDate();
+		user.setRenewalDate(annualDate);
 		user.setIsPaid(true);
 		users.add(user);
 		userdb.addUser(user.getEmail(), user.getPassword(), user.getName(), user.getAddress(), user.getCreditCardNum(), annualDate, user.getIsPaid());
