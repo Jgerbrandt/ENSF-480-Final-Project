@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.time.LocalDate;
 
 class UserDatabase implements FileOperations{
     public static void addUser(String email, String password, String name, String address, String cardInfo){
@@ -31,7 +32,7 @@ class UserDatabase implements FileOperations{
             Statement selectMatchingUser = initializeConnection().createStatement();
             ResultSet result = selectMatchingUser.executeQuery(query);
             if(result.next()){
-                User u = new User(result.getString("email"), result.getString("password"), result.getString("name"), result.getString("address"), result.getString("cardInfo");
+                User u = new Registered(result.getString("name"), result.getString("cardInfo"), result.getString("address"), result.getString("email"), false, LocalDate.now(), null);
                 selectMatchingUser.close();
                 return u;
             }
