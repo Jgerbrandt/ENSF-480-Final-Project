@@ -4,7 +4,7 @@ interface FileOperations {
 	/**
 	 * mySQL username
 	 */
-	static final String DBURL = "jdbc:mysql://localhost:3306/";
+	static final String DBURL = "jdbc:mysql://localhost:3306/ensf480theatredatabase";
 	/**
 	 * mySQL username
 	 */
@@ -27,7 +27,7 @@ interface FileOperations {
 			return dbConnect;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("SQL exception has occured.");
+			System.out.println("SQL exception has occured in initConnect.");
 			return null;
 		}
 	}
@@ -40,9 +40,5 @@ interface FileOperations {
 		}
 	}
 
-	/**
-	 * Abstract method to read from data in inventory.sql.
-	 */
-	void readFromTable();
 
 }
