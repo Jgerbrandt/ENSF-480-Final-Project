@@ -7,6 +7,14 @@ import java.util.*;
 import java.time.LocalDate;
 
 class UserDatabase implements FileOperations{
+    /**
+     * Uses SQL to add a User to the User Database
+     * @param email
+     * @param password
+     * @param name
+     * @param address
+     * @param cardInfo
+     */
     public static void addUser(String email, String password, String name, String address, String cardInfo){
         try{
             String query = "INSERT INTO Registered_User VALUES ( ?, ?, ?, ?, ?)";
@@ -26,13 +34,20 @@ class UserDatabase implements FileOperations{
         }
     }
     
+    /**
+     * Uses SQL to check if email and password matches a User in the User Database.
+     * If no User is found will return null.
+     * @param email 
+     * @param password
+     * @return
+     */
     public static User matchUser(String email, String password){
         try{
             String query = "SELECT email, password FROM Registered_User WHERE email = ? AND password = ?";
             Statement selectMatchingUser = initializeConnection().createStatement();
             ResultSet result = selectMatchingUser.executeQuery(query);
             if(result.next()){
-                User u = new Registered(result.getString("name"), result.getString("cardInfo"), result.getString("address"), result.getString("email"), false, LocalDate.now(), null);
+                User u = new Registered(result.getString("Name"), result.getString("CardInfo"), result.getString("Address"), result.getString("Email"), false, LocalDate.now(), null);
                 selectMatchingUser.close();
                 return u;
             }
