@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.lang.String;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -102,12 +103,19 @@ public class User{
 		System.out.println(creditCardNum);
 		System.out.println(renewalDate);
 	}
-    
-    public void payForOrder() {
-        
+
+    public void addToDB(){
+        String formattedDate = this.renewalDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        UserDatabase userDB = new UserDatabase();
+        userDB.addUser(email, password, name, address, creditCardNum, formattedDate, isPaid);
     }
 
-    public void cancelOrder() {
-
+    public void cancelOrder(int id) throws FileNotFoundException {
+        for(Order o : orders){
+            if(o.getOrderID() == id){
+                o.cancelOrder();
+                this.orders.remove(o);
+            }
+        }
     }
 }

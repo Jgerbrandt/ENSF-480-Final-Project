@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.time.LocalDate;
 
 public class UserDatabase implements FileOperations{
     /**
@@ -54,7 +53,6 @@ public class UserDatabase implements FileOperations{
                 email,
                 results.getBoolean("PaidFee"),
                 results.getString("AnnualDate"));
-                user.setRenewalDate();
                 selectOrders.setString(1, email);
                 ResultSet orders = selectOrders.executeQuery();
                 while (orders.next()) {
