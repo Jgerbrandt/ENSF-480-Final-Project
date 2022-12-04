@@ -19,10 +19,12 @@ class Theatre {
 	public Theatre(MovieDatabase theatredb) {
 		movies = theatredb.readMovies();
 		orders = theatredb.readOrders();	
-		//discounts = MovieDatabase.readDiscounts();
+		discounts = theatredb.readDiscountCodes();
 		theatredb.setMaxOrderID();
 		theatredb.setMaxTicketID();
 		theatredb.setMaxShowtimeID();
+		theatredb.setMaxCodeCounter();
+		//theatredb.addTicketToDB(1,2,3,3,3);
 	}	
 	
 	public void display() {
@@ -34,12 +36,29 @@ class Theatre {
 			System.out.println("Order");
 			orders.get(i).display();
 		}
+		for (int i =0; i < discounts.size(); i++) {
+			System.out.println("Discount");
+			discounts.get(i).display();
+		}
+		System.out.println(Order.OrderIDCounter);
+		System.out.println(Ticket.TicketIDCounter);
+		System.out.println(Showtime.ShowtimeIDCounter);
+		System.out.println(DiscountCode.CodeIDCounter);
 	}
 	
 	public static void main(String[] args) {
 		MovieDatabase theatredb = new MovieDatabase();
 		Theatre thistheatre = new Theatre(theatredb);
-		thistheatre.display();
+		//thistheatre.display();
+		UserController loginserver = UserController.getLoginInstance();
+		//loginserver.displayUsers();
+		Registered user = new Registered("john", "pass","1111-1111-1111-1111","school","email@email.com",true,"11-11-2022");
+		/*Registered user2 = loginserver.verifyUser(user);
+		user2.display();*/
+		Registered user3 = loginserver.parseInput(user);
+		user3.display();
+		Registered user4 = loginserver.signUp(user);
+		user4.display();
 	}
 	
 }
