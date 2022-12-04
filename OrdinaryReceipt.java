@@ -3,8 +3,9 @@ import java.io.PrintWriter;
 
 public class OrdinaryReceipt implements Receipt {
     private Ticket ticket;
-    private Order order;
+    private OrdinaryOrder order;
     private Showtime showtime;
+    private DiscountCode discountCode;
     
     @Override
     public void createOrderReceipt() throws FileNotFoundException {
@@ -27,9 +28,9 @@ public class OrdinaryReceipt implements Receipt {
         
         refundReceipt.println("Movie: " + ticket.getMovieName());
         refundReceipt.println("Email: " + order.getEmail());
-        refundReceipt.println("Refund Amount: " + order.getRefundAmount());
+        refundReceipt.println("Refund Amount: " + order.getRefund());
         refundReceipt.println("Date Refunded: " + order.getRefundDate());
-        refundReceipt.println("Discount Code: " + order.getDiscountCode());
+        refundReceipt.println("Discount Code: " + discountCode.getCode());
 
         refundReceipt.close();
     }
