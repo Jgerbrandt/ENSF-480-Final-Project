@@ -11,20 +11,21 @@ public class User{
     private String address;
     private String email;
     private boolean isPaid;
-    private String renewalDateString;
     private LocalDate renewalDate;
     private List<Order> orders;
 
-    public User(String n, String pass, String ccn, String addr, String email, boolean isPaid, String time) {
+    public User(String n, String pass, String ccn, String addr, String email, boolean isPaid, String renDate) {
         this.name = n;
         this.password = pass;
         this.creditCardNum = ccn;
         this.address = addr;
         this.email = email;
         this.isPaid = isPaid;
-        this.renewalDateString = time;
+        setRenewalDate(renDate);
         this.orders = new ArrayList<Order>();
     }
+
+    //add to database
 
     public String getName() {
         return this.name;
@@ -84,13 +85,9 @@ public class User{
     
     public void addOrder(Order order) {
 		orders.add(order);
-		
 	}
-	public void setRenewalDateString(String date) {
-		this.renewalDateString = date;
-    }
     
-    public void setRenewalDate() { this.renewalDate = LocalDate.parse(renewalDateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));}
+    public void setRenewalDate(String renDate) { this.renewalDate = LocalDate.parse(renDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));}
     
     public void display() {
 		if (this.email == null) {	
@@ -106,12 +103,11 @@ public class User{
 		System.out.println(renewalDate);
 	}
     
-
     public void payForOrder() {
         
     }
 
     public void cancelOrder() {
-        
+
     }
 }
