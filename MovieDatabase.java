@@ -110,7 +110,7 @@ class MovieDatabase implements FileOperations {
 			insertStatement.setInt(2, orderID);
 			insertStatement.setInt(3, ticket.getSeatRow());
 			insertStatement.setInt(4, ticket.getSeatColumn());
-			insertStatement.setInt(5, ticket.getshowtimeID);
+			insertStatement.setInt(5, ticket.getshowtimeID());
 			insertStatement.executeUpdate();
 			insertStatement.close();
 			closeConnection(con);
