@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class UserController{
     private static UserController loginInstance; 
-    private List<Registered> users;
+    private List<User> users;
     UserDatabase userdb;
 
     private UserController(){
@@ -24,10 +24,10 @@ public class UserController{
      * takes a user object with just user and password
      * iterate through to match, return the correct user
      */
-    public Registered verifyUser(Registered user){
-		Iterator<Registered> userIter = users.iterator();
+    public User verifyUser(User user){
+		Iterator<User> userIter = users.iterator();
 		while(userIter.hasNext()) {
-			Registered curuser = userIter.next();
+			User curuser = userIter.next();
 			if (curuser.getEmail().equals(user.getEmail()) && curuser.getPassword().equals(user.getPassword())) {
 				return curuser;
 			}
@@ -39,7 +39,7 @@ public class UserController{
     /*
      * parse the user arguments
      */
-    public Registered parseInput(Registered user) {
+    public User parseInput(User user) {
 		String EMAIL_REGEX = "^[A-Z,a-z,.,0-9]{0,20}@[A-Z,a-z]{0,20}.com$";
 		String CARD_REGEX = "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$";
 		Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
@@ -54,9 +54,9 @@ public class UserController{
 			user.setEmail(null);
 			return user;
 		}
-		Iterator<Registered> userIter = users.iterator();
+		Iterator<User> userIter = users.iterator();
 		while(userIter.hasNext()) {
-			Registered curuser = userIter.next();
+			User curuser = userIter.next();
 			if (curuser.getEmail().equals(user.getEmail())) {
 				user.setEmail(null);
 				return user;
@@ -65,7 +65,7 @@ public class UserController{
 		return user;		
 	}
      //take user without dates, return registered with dates
-    public Registered signUp(Registered user){
+    public User signUp(User user){
 		LocalDate lt = LocalDate.now();
 		String annualDate = lt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		user.setRenewalDateString(annualDate);
@@ -77,9 +77,9 @@ public class UserController{
     }
     
     public void displayUsers() {
-		Iterator<Registered> userIter = users.iterator();
+		Iterator<User> userIter = users.iterator();
 		while(userIter.hasNext()) {
-			Registered curuser = userIter.next();
+			User curuser = userIter.next();
 			curuser.display();
 		}
 	}
