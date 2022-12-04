@@ -1,23 +1,27 @@
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 class Order {
     private int OrderID;
     private String email;
     private List<Ticket> tickets;
-    private double refundAmount;
     private double price;
     private LocalDate purchaseDate;
     private LocalDate refundDate;
+    private Duration cancelPeriod;
+    private Receipt receipt;    
     public static int OrderIDCounter;
 
-    public Order(int id, String email, List<Ticket> tickets, double refAmm, double price) {
-        this.OrderID = id;
+    public Order(int OrderID, String email, List<Ticket> tickets, double price, LocalDate purchaseDate, LocalDate refundDate, Duration cancelPeriod, Receipt receipt) {
+        this.OrderID = OrderID;
         this.email = email;
-        this.tickets = new ArrayList<Ticket>();
-        this.refundAmount = refAmm;
+        this.tickets = (List<Ticket>) new Ticket(OrderID, email, OrderID, OrderID, OrderID, null);
         this.price = price;
+        this.purchaseDate = purchaseDate;
+        this.refundDate = refundDate;
+        this.cancelPeriod = cancelPeriod;
+        this.receipt = receipt;
     }
 
     public void addTicket(Ticket ticket) {
@@ -34,10 +38,6 @@ class Order {
 
     public List<Ticket> getTickets() {
         return this.tickets;
-    }
-
-    public double getRefundAmount() {
-        return this.refundAmount;
     }
 
     public double getPrice() {
@@ -64,10 +64,6 @@ class Order {
         this.tickets = tickets;
     }
 
-    public void setRefundAmount(double refundAmount) {
-        this.refundAmount = refundAmount;
-    }
-
     public void setPrice(double price) {
         this.price = price;
     }
@@ -79,5 +75,4 @@ class Order {
     public void setRefundDate(LocalDate refundDate) {
         this.refundDate = refundDate;
     }
-
 }
