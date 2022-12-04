@@ -2,26 +2,29 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-class Order {
+
+public class Order {
     private int OrderID;
     private String email;
     private List<Ticket> tickets;
     private double price;
     private LocalDate purchaseDate;
-    private LocalDate refundDate;
+    private String refundDate;
     private Duration cancelPeriod;
-    private Receipt receipt;    
+    private Receipt receipt;
+    private Ticket ticket;    
     public static int OrderIDCounter;
 
-    public Order(int OrderID, String email, List<Ticket> tickets, double price, LocalDate purchaseDate, LocalDate refundDate, Duration cancelPeriod, Receipt receipt) {
+    public Order(String email, List<Ticket> tickets) {
+        this.email = email;
+        this.tickets = tickets;
+    }
+
+    public Order(int OrderID, String email, double price, String refundDate) {
         this.OrderID = OrderID;
         this.email = email;
-        this.tickets = (List<Ticket>) new Ticket(OrderID, email, OrderID, OrderID, OrderID, null);
         this.price = price;
-        this.purchaseDate = purchaseDate;
         this.refundDate = refundDate;
-        this.cancelPeriod = cancelPeriod;
-        this.receipt = receipt;
     }
 
     public void addTicket(Ticket ticket) {
@@ -48,7 +51,7 @@ class Order {
         return this.purchaseDate;
     }
 
-    public LocalDate getRefundDate() {
+    public String getRefundDate() {
         return this.refundDate;
     }
 
@@ -72,7 +75,7 @@ class Order {
         this.purchaseDate = purchaseDate;
     }
 
-    public void setRefundDate(LocalDate refundDate) {
+    public void setRefundDate(String refundDate) {
         this.refundDate = refundDate;
     }
 }
