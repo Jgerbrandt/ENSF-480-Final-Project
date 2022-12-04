@@ -10,9 +10,7 @@ class Theatre {
 	private List<Order> orders = new ArrayList<Order>();
 	
 	private List<DiscountCode> discounts = new ArrayList<DiscountCode>();
-	
-	//string arraylist for the movienames
-	
+		
 	//private LoginServer loginserver = LoginServer.getOnlyInstance();
 	
 	
