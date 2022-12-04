@@ -1,6 +1,4 @@
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.List;
+import java.io.FileNotFoundException;
 
 public class OrdinaryOrder extends Order {
 
@@ -10,10 +8,10 @@ public class OrdinaryOrder extends Order {
 
     //Ordanary creates discount code
     
-    public OrdinaryOrder(int OrderID, List<Ticket> tickets, double refundAmount, double price, LocalDate purchaseDate,
-            LocalDate refundDate, Showtime showtime, Receipt receipt, Duration time) {
-        super(OrderID, tickets, refundAmount, price, purchaseDate, refundDate, showtime, receipt, time);
-        //TODO Auto-generated constructor stub
+    public OrdinaryOrder(int OrderID, String tickets, double price, String refundDate) {
+        super(OrderID, tickets, price, refundDate);
+        this.discount = price * 0.15;
+        this.refund = price * 0.75;
     }
 
     public double getRefund() {
@@ -26,5 +24,14 @@ public class OrdinaryOrder extends Order {
         double price = getPrice();
         discount = price * 0.15;
         return this.discount;
+    }
+
+    @Override
+    public void payForOrder() throws FileNotFoundException {
+        MovieDatabase movie = new MovieDatabase();
+        movie.addOrderToDB(this); 
+        this.discountCode = new DiscountCode(discount);
+        Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this, this.discountCode);
+        receipt.createOrderReceipt();
     }
 }
