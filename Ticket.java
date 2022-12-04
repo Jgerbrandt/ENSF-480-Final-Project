@@ -26,6 +26,8 @@ public class Ticket {
         ticket.println("Screen: " + showtime.getScreen());
         ticket.println("Date: " + showtime.getShowDate());
         ticket.println("Time: " + showtime.getTime());
+
+        ticket.close();
     }
 
     public int getTicketID() {

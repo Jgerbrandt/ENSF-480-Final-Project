@@ -1,5 +1,6 @@
 public class Ordinary implements User {
 
+    
     @Override
     public void payForOrder() {
         // TODO Auto-generated method stub
