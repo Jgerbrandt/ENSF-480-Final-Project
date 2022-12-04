@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 
 public class Ticket {
     private int ticketID;
+    private int orderID;
     private String movieName;
     private int seatColumn;
     private int seatRow;
@@ -10,13 +11,12 @@ public class Ticket {
     private Showtime showtime;
     public static int TicketIDCounter;
 
-    public Ticket(int id, String name, int col, int row, int showtimeID, Showtime showtime) {
+    public Ticket(int id, int orderID, int col, int row, int showtimeID) {
         this.ticketID = id;
-        this.movieName = name;
+        this.orderID = orderID;
         this.seatColumn = col;
         this.seatRow = row;
         this.showtimeID = showtimeID;
-        this.showtime = showtime;
     }
 
     public void createTicket() throws FileNotFoundException {
@@ -54,8 +54,8 @@ public class Ticket {
         return this.showtime;
     }
 
-    public void setTicketID(int ticketID) {
-        this.ticketID = ticketID;
+    public void setTicketID() {
+        this.ticketID = TicketIDCounter++;
     }
 
     public void setMovieName(String movieName) {

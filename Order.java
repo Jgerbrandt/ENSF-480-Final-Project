@@ -1,25 +1,27 @@
-import java.time.Duration;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
 
 public class Order {
-    private int OrderID;
-    private String email;
-    private List<Ticket> tickets;
-    private double price;
-    private LocalDate purchaseDate;
-    private LocalDate refundDate; 
+    protected int OrderID;
+    protected String email;
+    protected List<Ticket> tickets;
+    protected double price;
+    protected LocalDate purchaseDate;
+    protected LocalDate refundDate; 
     public static int OrderIDCounter;
-    private boolean isPaid = false;
 
     public Order(String email, List<Ticket> tickets) {
         this.OrderID = OrderIDCounter;
         OrderIDCounter++;
         this.email = email;
         this.tickets = tickets;
+        for(Ticket t : tickets){
+            t.setTicketID();
+        }
         this.price = (double) tickets.size() * 10;
+        this.purchaseDate = LocalDate.now();
         this.refundDate = tickets.get(0).getShowtime().getShowDate().minusDays(3);
     }
 
@@ -30,8 +32,8 @@ public class Order {
         this.refundDate = LocalDate.parse(rd, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
-    public void addTicket(Ticket ticket) {
-        tickets.add(ticket);
+    public void addTicket(int ticketID, int col, int row, int stID) {
+        tickets.add(new Ticket(ticketID, this.OrderID, col, row, stID));
     }
 
     public int getOrderID() {
@@ -83,15 +85,18 @@ public class Order {
         this.refundDate = LocalDate.parse(refundDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
-    public void payForOrder(){
+    public void payForOrder() throws FileNotFoundException {
         MovieDatabase movie = new MovieDatabase();
-        this.isPaid = true;
-        movie.addOrderToDB(this);    
+        movie.addOrderToDB(this); 
+        Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
+        receipt.createOrderReceipt();
     }
 
-    public void cancelOrder(){
+    public void cancelOrder() throws FileNotFoundException {
         MovieDatabase movie = new MovieDatabase();
-
+        movie.removeOrder(this.OrderID);
+        Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
+        receipt.createRefundReceipt();
     }
 
 }
