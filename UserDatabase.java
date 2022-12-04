@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.*;
 import java.time.LocalDate;
 
-class UserDatabase implements FileOperations{
+public class UserDatabase implements FileOperations{
     /**
      * Uses SQL to add a User to the User Database
      * @param email
