@@ -8,9 +8,9 @@ public class SeatingMap{
     private boolean soldOut = false;
     private static double price = 10;
 
-    public SeatingMap(Showtime st){
-        this.earlyAccess = st.getMovie().getEarlyAccess();
-        this.releaseDate = st.getMovie().getReleaseDate();
+    public SeatingMap(LocalDate rd){
+        this.releaseDate = rd;
+        this.earlyAccess = rd.minusWeeks(1);
         this.seats = new int[10][10];
         for(int i = 0; i < seats.length; i++){
             for(int j = 0; j < seats[i].length; j++){

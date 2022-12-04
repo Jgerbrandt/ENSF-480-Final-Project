@@ -8,16 +8,14 @@ public class Showtime {
     private int screen;
     private LocalDate showDate;
     private String time; //hh:mmam/pm
-    private Movie movie;
     SeatingMap seatMap;
 
-    public Showtime(int id, int s, String sd, String t, Movie movie){
+    public Showtime(int id, int s, String sd, String t, LocalDate rd){
         this.id = id;
         this.screen = s;
         this.time = t;
         setShowDate(sd);
-        this.seatMap = new SeatingMap(this);
-        this.movie = movie;
+        this.seatMap = new SeatingMap(rd);
     }
 
     //getters
@@ -27,7 +25,6 @@ public class Showtime {
     public int getID() {return this.id;}
     public LocalDate getShowDate(){return this.showDate;}
     public static int getCounter() { return ShowtimeIDCounter; }
-    public Movie getMovie() { return this.movie; }
 
     //setters
     public void setScreen(int screen){ this.screen = screen; }
