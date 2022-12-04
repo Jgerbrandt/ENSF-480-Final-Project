@@ -162,7 +162,7 @@ class MovieDatabase implements FileOperations {
 			PreparedStatement selectTickets = con.prepareStatement(query);
 			while (results.next()) {
 				int orderID = results.getInt("OrderID");
-				Order order = new Order(orderID, results.getString("Email"));
+				Order order = new Order(orderID, results.getString("Email"), results.getDouble("Price"), results.getString("RefundDate"));
 				selectTickets.setInt(1, orderID);
 				ResultSet tickets = selectTickets.executeQuery();
 				while (tickets.next()) {
