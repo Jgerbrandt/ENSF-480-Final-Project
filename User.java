@@ -23,6 +23,9 @@ public class User{
         this.email = email;
         this.isPaid = isPaid;
         setRenewalDate(renDate);
+        if(this.renewalDate.isBefore(LocalDate.now())){
+            this.isPaid = false;
+        }
         this.orders = new ArrayList<Order>();
     }
 
@@ -105,7 +108,6 @@ public class User{
 	}
 
     public void addToDB(){
-        String formattedDate = this.renewalDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         UserController uc = UserController.getLoginInstance();
         uc.signUp(this);
     }
@@ -117,5 +119,10 @@ public class User{
                 this.orders.remove(o);
             }
         }
+    }
+
+    public void payAnnualFee(){
+        this.isPaid = true;
+        this.renewalDate = LocalDate.now().plusYears(1);
     }
 }
