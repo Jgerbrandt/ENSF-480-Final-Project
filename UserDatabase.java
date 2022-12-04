@@ -37,8 +37,8 @@ public class UserDatabase implements FileOperations{
         }
     }
     
-    public List<Registered> readRegisteredUsers() {
-		List<Registered> userlist = new ArrayList<Registered>();
+    public List<User> readRegisteredUsers() {
+		List<User> userlist = new ArrayList<User>();
         try {
             Statement selectAllStatement = initializeConnection().createStatement();
             ResultSet results = selectAllStatement.executeQuery("SELECT * FROM registereduser");
@@ -47,7 +47,7 @@ public class UserDatabase implements FileOperations{
             PreparedStatement selectOrders = con.prepareStatement(query);
             while (results.next()) {
                 String email = results.getString("Email");
-                Registered user = new Registered(results.getString("Name"),
+                User user = new User(results.getString("Name"),
                 results.getString("Password"),
                 results.getString("CardInfo"),
                 results.getString("Address"),
