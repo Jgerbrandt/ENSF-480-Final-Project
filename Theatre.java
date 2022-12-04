@@ -11,19 +11,20 @@ class Theatre {
 	
 	private List<DiscountCode> discounts = new ArrayList<DiscountCode>();
 	
-	//string arraylist for the movienames
 	
-	//private LoginServer loginserver = LoginServer.getOnlyInstance();
+	private UserController loginserver;
 	
 	
 	
 	public Theatre(MovieDatabase theatredb) {
 		movies = theatredb.readMovies();
 		orders = theatredb.readOrders();	
-		//discounts = MovieDatabase.readDiscounts();
+		discounts = theatre.readDiscountCodes();
 		theatredb.setMaxOrderID();
 		theatredb.setMaxTicketID();
 		theatredb.setMaxShowtimeID();
+		theatredb.setMaxCodeCounter();
+		loginserver = UserController.getLoginInstance();
 	}		
 
 	public List<Movie> getReleasedMovies(){ 	
