@@ -1,10 +1,16 @@
+import java.time.LocalDate;
+
 public class SeatingMap{
     private int[][] seats;
+    private LocalDate earlyAccess;
+    private LocalDate releaseDate;
     private boolean tenPercentSold = false; 
     private boolean soldOut = false;
     private static double price = 10;
 
-    public SeatingMap(){
+    public SeatingMap(Showtime st){
+        this.earlyAccess = st.getMovie().getEarlyAccess();
+        this.releaseDate = st.getMovie().getReleaseDate();
         this.seats = new int[10][10];
         for(int i = 0; i < seats.length; i++){
             for(int j = 0; j < seats[i].length; j++){
@@ -18,7 +24,7 @@ public class SeatingMap{
     public boolean getSoldOut() { return this.soldOut; }
     public static double getPrice(){ return price; }
 
-    public boolean checkSoldOut(){
+    public void checkSoldOut(){
         int count = 0;
         for(int i = 0; i < seats.length; i++){
             for(int j = 0; j < seats[i].length; j++){
@@ -28,14 +34,14 @@ public class SeatingMap{
             }
         }
         if (count == 100){
-            return true;
+            this.soldOut = true;
         }
         else {
-            return false;
+            this.soldOut = false;
         }
     }
 
-    public boolean checkTenPercent(){
+    public void checkTenPercent(){
         int count = 0;
         for(int i = 0; i < seats.length; i++){
             for(int j = 0; j < seats[i].length; j++){
@@ -44,15 +50,24 @@ public class SeatingMap{
                 }
             }
         }
-        if (count >= 10){
-            return true;
+        if (count >= 10 && isEarly()){
+                this.tenPercentSold = true;
         }
         else {
-            return false;
+            this.tenPercentSold = false;
         }
     }
 
     public void buySeats(int[] seatPair) {
         this.seats[seatPair[0]][seatPair[1]] = 1;
+    }
+
+    public boolean isEarly(){
+        if (LocalDate.now().isAfter(this.earlyAccess) && LocalDate.now().isBefore(this.releaseDate)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
