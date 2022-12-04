@@ -101,16 +101,16 @@ class MovieDatabase implements FileOperations {
 		return movies;
 	}
 	
-	public void addTicketToDB(int ticketID, int orderID, int row, int col, int showtimeID) {
+	public void addTicketToDB(Ticket ticket, orderID) {
 		try {
 			String query = "INSERT INTO ticket VALUES (?,?,?,?,?)";
 			Connection con = initializeConnection();
 			PreparedStatement insertStatement = con.prepareStatement(query);
-			insertStatement.setInt(1, ticketID);
+			insertStatement.setInt(1, ticket.getTicketID());
 			insertStatement.setInt(2, orderID);
-			insertStatement.setInt(3, row);
-			insertStatement.setInt(4, col);
-			insertStatement.setInt(5, showtimeID);
+			insertStatement.setInt(3, ticket.getSeatRow());
+			insertStatement.setInt(4, ticket.getSeatColumn());
+			insertStatement.setInt(5, ticket.getshowtimeID());
 			insertStatement.executeUpdate();
 			insertStatement.close();
 			closeConnection(con);
@@ -119,18 +119,22 @@ class MovieDatabase implements FileOperations {
 		}	
 	}
 	
-	public void addOrderToDB(int orderID, String email, double price, String date) {
+	public void addOrderToDB(Order order) {
 		try {
-			String query = "INSERT INTO orders VALUES (?,?)";
+			String query = "INSERT INTO orders VALUES (?,?,?,?)";
 			Connection con = initializeConnection();
 			PreparedStatement insertStatement = con.prepareStatement(query);
-			insertStatement.setInt(1, orderID);
-			insertStatement.setString(2, email);
-			insertStatement.setDouble(3, price);
-			insertStatement.setString(4, date);
+			insertStatement.setInt(1, order.getOrderID());
+			insertStatement.setString(2, order.getEmail());
+			insertStatement.setDouble(3, order.getPrice());
+			insertStatement.setString(4, order.getRefundDate());
 			insertStatement.executeUpdate();
 			insertStatement.close();
 			closeConnection(con);
+			Iterator<Ticket> tickets = order.getTickets().iterator();
+			while (tickets.hasNext()) {
+				addTicketToDB(ticket.next(), order.getOrderID());	
+			}
 		} catch (SQLException ex) {
 			System.out.println("Could not insert order " + orderID);
 		}	
@@ -162,7 +166,7 @@ class MovieDatabase implements FileOperations {
 			PreparedStatement selectTickets = con.prepareStatement(query);
 			while (results.next()) {
 				int orderID = results.getInt("OrderID");
-				Order order = new Order(orderID, results.getString("Email"));
+				Order order = new Order(orderID, results.getString("Email"), results.getDouble("Price"), results.getString("RefundDate"));
 				selectTickets.setInt(1, orderID);
 				ResultSet tickets = selectTickets.executeQuery();
 				while (tickets.next()) {
