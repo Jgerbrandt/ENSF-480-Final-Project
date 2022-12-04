@@ -60,7 +60,7 @@ public class MovieController {
 	public void updateMovie(@RequestBody int[][] returnArray) {
 		/*
 		 * Method for receiving changes to movie seating map
-		 * [[UniqueMovieID], [Row1,Seat1], [Row2,Seat2]...]
+		 * [[UniqueShowtimeID], [Row1,Seat1], [Row2,Seat2]...]
 		 */
 		int showTimeIndex = returnArray[0][0]; //Grabs Showtime ID
 		Showtime targetShowTime = this.movieRepo.findShowTime(showTimeIndex);

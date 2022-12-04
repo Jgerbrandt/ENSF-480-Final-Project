@@ -3,6 +3,14 @@
  * Changes from Git: None
  */
 
+/*
+//NEW: 
+ * TicketID -> ticketID
+ * orderID
+ * showtimeID
+ * 
+ */
+
 package apiPackage.model;
 
 public class Ticket {
@@ -10,17 +18,17 @@ public class Ticket {
     private String movieName;
     private int seatColumn;
     private int seatRow;
-    private String time;
+    private Showtime showtime;
 
     public static int TicketIDCounter;
 
 
-    public Ticket(int id, String name, int col, int row, String time) {
+    public Ticket(int id, String name, int col, int row, Showtime showtime) {
         this.TicketID = id;
         this.movieName = name;
         this.seatColumn = col;
         this.seatRow = row;
-        this.time = time;
+        this.showtime = showtime;
     }
 
 
@@ -64,13 +72,13 @@ public class Ticket {
 	}
 
 
-	public String getTime() {
-		return time;
+	public Showtime getTime() {
+		return showtime;
 	}
 
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setTime(Showtime time) {
+		this.showtime = time;
 	}
 
 

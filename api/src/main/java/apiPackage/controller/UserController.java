@@ -41,22 +41,28 @@ public class UserController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/users/remove")
 	public void removeUser(@RequestBody User newUser) {
-		System.out.println("Removing user");
 		loggedInUser = null;
 		this.userRepo.delete(newUser); //DELETE from DB
 		getUser();
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/users/login")
-	public void loginUsers(@RequestBody User newUser) {
-		User foundUser = this.userRepo.find(newUser.getEmail(), newUser.getPassword());
+	@RequestMapping(method=RequestMethod.POST, value="/users/pay")
+	public void receivePayment(@RequestBody User targetUser) {
+		targetUser.setIsPaid(true); //Update flag on target user
+		this.userRepo.update(targetUser); //Update DB with new info
+		//IMPLEMENT (?): Generate a receipt for payment
+		getUser();
 	}
+	
+	
+	
 	
 	
 		
 		
 	@RequestMapping(method=RequestMethod.POST, value="/users")
 	public void createUsers(@RequestBody User newUser) {
+
 		/*
 		 *  Handles both Register and Login logic
 		 *  newUser will either only be an email and password (login) with all other fields null
@@ -64,12 +70,13 @@ public class UserController {
 		 */
 		
 
-		if(newUser.getCreditCardNum() == null) {
+		if(newUser.getCreditCardNum().isBlank()) {
 			//Login Process
 			User foundUser = this.userRepo.find(newUser.getEmail(), newUser.getPassword()); //Queries "database" for a user that matches the email and password
 			// ^^^ Returns null if no match
 			
-			if(foundUser.getCreditCardNum() != null) {
+			if(foundUser != null) {
+				System.out.println("Found them!");
 				//If we find a matching user: 
 				loggedInUser = foundUser; //Update loggedInUser member to interact with frontend
 				getUser(); //Updated API so frontend can see
@@ -78,17 +85,18 @@ public class UserController {
 		}
 		
 		else {
+			System.out.println("In register else");
 			//Register Process
-			
 			//Sets Registered/Renewal Dates 
+			
 			newUser.setregisteredDate(LocalDate.now());
 			newUser.setrenewalDate(LocalDate.now().plusYears(1));
+			
 			
 			this.userRepo.save(newUser); //INSERT in to "Database"
 			loggedInUser = newUser; //Set loggedInUser member to interact with frontend
 			
 			getUser(); //Update API so frontend can see
-			
 		}
 	}
 }

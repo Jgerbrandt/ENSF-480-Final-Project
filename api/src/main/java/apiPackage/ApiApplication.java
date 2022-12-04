@@ -15,8 +15,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import apiPackage.model.DiscountCode;
 import apiPackage.model.Movie;
+import apiPackage.repo.DiscountRepo;
 import apiPackage.repo.MovieRepo;
+import apiPackage.model.Order;
+import apiPackage.model.Showtime;
+import apiPackage.model.Ticket;
+import apiPackage.repo.OrderRepo;
+import apiPackage.model.Showtime;
 
 @SpringBootApplication
 public class ApiApplication implements CommandLineRunner {
@@ -29,6 +36,12 @@ public class ApiApplication implements CommandLineRunner {
 	@Autowired
 	private MovieRepo movieRepo;
 	
+	@Autowired
+	private DiscountRepo discountRepo;
+	
+	@Autowired
+	private OrderRepo orderRepo;
+	
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -37,7 +50,8 @@ public class ApiApplication implements CommandLineRunner {
 		
 		Movie testMovie1 = new Movie("Lord of the Rings", "01-06-2020");
 		Movie testMovie2 = new Movie("Avengers", "05-12-2022");
-		
+
+		Showtime testShowtime = new Showtime(1, "05-12-2022", "9:00pm");
 		testMovie1.addShowtime(1, "05-12-2022", "9:00pm");
 		testMovie1.addShowtime(2, "06-12-2022", "10:00pm");
 		testMovie1.addShowtime(3, "06-12-2022", "8:30pm");
@@ -47,6 +61,18 @@ public class ApiApplication implements CommandLineRunner {
 		
 		this.movieRepo.save(testMovie1);
 		this.movieRepo.save(testMovie2);
+		
+		DiscountCode testDiscount = new DiscountCode(12345, 5);
+		this.discountRepo.add(testDiscount);
+		
+//		Order testOrder = new Order(0, "testEmail");
+//		Ticket testTicket = new Ticket(0, "TestMovie", 0, 0, testShowtime);
+//		testOrder.addTicket(testTicket);
+//		
+//		this.orderRepo.add(testOrder);
+		
+
+		
 		
 		
 //		this.movieRepo.save(new Movie("10pm", "Lord of the Rings", 1, "06-01-2023", 1)); //Nobody

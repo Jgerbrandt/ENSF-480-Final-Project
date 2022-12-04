@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiPackage.model.Order;
-import apiPackage.model.User;
 import apiPackage.repo.OrderRepo;
 
 @CrossOrigin(origins="http://localhost:3000")
@@ -47,19 +46,41 @@ public class OrderController {
 		//Functions receives an Order object from front end
 		//Will need to database it or whatever
 		//Needs to set OrderID and TicketID here
+		//Takes Regular User Orders
+		System.out.println("Order Received");
+		//System.out.println(newOrder.getTickets().get(0).getMovieName());
 		myOrders.clear();
-		System.out.println(newOrder.getOrderID());
+		//Check to see if order is cancellable!!
 		this.orderRepo.add(newOrder);
+		//IMPLEMENT: Generate TicketID and OrderID
+		//IMPLEMENT: Add to database
+		getOrder();	
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/orders/reg")
+	public void receiveRegOrder(@RequestBody Order newOrder) {
+		//NEEDS CHANGE:
+		//Functions receives an Order object from front end
+		//Will need to database it or whatever
+		//Needs to set OrderID and TicketID here
+		
+		//Takes Registered User Orders (Logic same as normal users rn)
+		myOrders.clear();
+		//Check to see if order is cancellable!!
+		this.orderRepo.add(newOrder);
+		//IMPLEMENT: Add order to user
+		//IMPLEMENT: Generate TicketID and OrderID
+		//IMPLEMENT: Add to database
 		getOrder();	
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/cancel")
 	public void cancelOrder(@RequestBody Order newOrder) {
-		System.out.println("Cancelling Order");
 		myOrders.clear();
 		this.orderRepo.cancel(newOrder); //Removes instance newOrder from Database
-		//REFUND LOGIC NEEDS TO BE IMPLEMENTED
-		//CHANGING SEAT MAP NEEDS TO BE IMPLEMENTED
+		//IMPLEMENT: Generate discount code.
+		//IMPLEMENT: Seat map update
+		//IMPLEMENT: Check if order is cancellable
 		getOrder();
 	}
 	
@@ -67,14 +88,12 @@ public class OrderController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/validate")
 	public void validateOrder(@RequestBody Order newOrder) {
+		//Checks incoming order, returns matching order
 		myOrders.clear();
-		System.out.println("Entered ");
 		String orderEmail = newOrder.getEmail();
 		int orderID = newOrder.getOrderID();
-		System.out.println(orderEmail + orderID);
 		Order foundOrder = this.orderRepo.validate(orderEmail, orderID);
 		if(foundOrder != null) {
-			System.out.println("Found order");
 			myOrders.add(foundOrder);
 		}
 		getOrder();

@@ -37,6 +37,7 @@ public class User{ //public class Registered extends User{
         this.password = password;
     }
     
+    
 
     public String getName() {return this.name;}
     public String getCreditCardNum() {return this.creditCardNum;}

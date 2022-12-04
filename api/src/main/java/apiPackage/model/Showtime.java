@@ -11,6 +11,8 @@ public class Showtime {
     private LocalDate showDate;
     private String time; //hh:mmam/pm
     SeatingMap seatMap;
+    
+    public Showtime() {}
 
     public Showtime(int s, String sd, String t){
         setID();
