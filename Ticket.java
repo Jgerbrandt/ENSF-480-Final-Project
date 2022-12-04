@@ -1,20 +1,17 @@
 class Ticket {
     private int TicketID;
-    private String movieName;
+    private int showtimeID;
     private int seatColumn;
     private int seatRow;
-    private int time;
 
     public static int TicketIDCounter;
 
 
-    public Ticket(int id, String name, int col, int row, int time) {
+    public Ticket(int id, int col, int row, int showtimeID) {
         this.TicketID = id;
-        this.movieName = name;
+        this.showtimeID = showtimeID;
         this.seatColumn = col;
         this.seatRow = row;
-        this.time = time;
     }
-
 
 }
