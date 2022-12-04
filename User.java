@@ -106,8 +106,8 @@ public class User{
 
     public void addToDB(){
         String formattedDate = this.renewalDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        UserDatabase userDB = new UserDatabase();
-        userDB.addUser(email, password, name, address, creditCardNum, formattedDate, isPaid);
+        UserController uc = UserController.getLoginInstance();
+        uc.signUp(this);
     }
 
     public void cancelOrder(int id) throws FileNotFoundException {

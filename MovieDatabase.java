@@ -88,7 +88,7 @@ class MovieDatabase implements FileOperations {
 					movie.addShowtime(showtimes.getInt("ShowtimeID"),
 					showtimes.getInt("Screen"),
 					showtimes.getString("Date"),
-					showtimes.getString("Time"));
+					showtimes.getString("Time"), movie.getReleaseDate());
 				}
 				movies.add(movie);
 			}
