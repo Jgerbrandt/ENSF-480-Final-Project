@@ -59,7 +59,7 @@ public class UserDatabase implements FileOperations{
                 ResultSet orders = selectOrders.executeQuery();
                 while (orders.next()) {
                     Order order = new Order(orders.getInt("OrderID"),
-                    orders.getString("Email"));
+                    orders.getString("Email"), orders.getDouble("Price"), orders.getString("RefundDate"));
                     user.addOrder(order);
                 }
                 userlist.add(user); 
