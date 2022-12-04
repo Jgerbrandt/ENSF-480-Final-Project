@@ -47,7 +47,7 @@ public class Movie {
     }
 
     public void addShowtime(int id, int screen, String date, String time){
-        Showtime newShow = new Showtime(id, screen, date, time);
+        Showtime newShow = new Showtime(id, screen, date, time, this);
         this.showtimes.add(newShow);
     }
 

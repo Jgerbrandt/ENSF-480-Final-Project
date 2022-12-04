@@ -10,6 +10,12 @@ public class OrdinaryReceipt implements Receipt {
     private OrdinaryOrder order;
     private DiscountCode discountCode;
 
+    public OrdinaryReceipt(List<Ticket> t, String em, OrdinaryOrder o){
+        this.tickets = t;
+        this.email = em;
+        this.order = o;
+    }
+
     public OrdinaryReceipt(List<Ticket> t, String em, OrdinaryOrder o, DiscountCode dc){
         this.tickets = t;
         this.email = em;

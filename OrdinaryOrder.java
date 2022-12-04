@@ -30,8 +30,17 @@ public class OrdinaryOrder extends Order {
     public void payForOrder() throws FileNotFoundException {
         MovieDatabase movie = new MovieDatabase();
         movie.addOrderToDB(this); 
+        Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this);
+        receipt.createOrderReceipt();
+    }
+
+    @Override 
+    public void cancelOrder() throws FileNotFoundException {
+        MovieDatabase movie = new MovieDatabase();
+        movie.removeOrder(this.OrderID);
         this.discountCode = new DiscountCode(discount);
         Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this, this.discountCode);
-        receipt.createOrderReceipt();
+        receipt.createRefundReceipt();
+        movie.addDiscountCodeToDB(this.discountCode);
     }
 }
