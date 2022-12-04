@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Showtime {
-    private static int counter = 1;
+    public static int ShowtimeIDCounter;
     private int id;
     private int screen;
     private LocalDate showDate;
@@ -24,7 +24,7 @@ public class Showtime {
     public SeatingMap getSeats() { return this.seatMap; }
     public int getID() {return this.id;}
     public LocalDate getShowDate(){return this.showDate;}
-    public static int getCounter() { return counter; }
+    public static int getCounter() { return ShowtimeIDCounter; }
 
     //setters
     public void setScreen(int screen){ this.screen = screen; }
