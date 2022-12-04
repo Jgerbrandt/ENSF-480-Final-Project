@@ -119,13 +119,15 @@ class MovieDatabase implements FileOperations {
 		}	
 	}
 	
-	public void addOrderToDB(int orderID, String email) {
+	public void addOrderToDB(int orderID, String email, double price, String date) {
 		try {
 			String query = "INSERT INTO orders VALUES (?,?)";
 			Connection con = initializeConnection();
 			PreparedStatement insertStatement = con.prepareStatement(query);
 			insertStatement.setInt(1, orderID);
 			insertStatement.setString(2, email);
+			insertStatement.setDouble(3, price);
+			insertStatement.setString(4, date);
 			insertStatement.executeUpdate();
 			insertStatement.close();
 			closeConnection(con);

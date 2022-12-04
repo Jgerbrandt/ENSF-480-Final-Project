@@ -25,4 +25,24 @@ class Theatre {
 		theatredb.setMaxTicketID();
 		theatredb.setMaxShowtimeID();
 	}		
+
+	public List<Movie> getReleasedMovies(){ 	
+		ArrayList<Movie> released = new ArrayList<Movie>();
+		for (Movie m : this.movies){
+			if(m.isReleased()){
+				released.add(m);
+			}
+		}
+		return released;
+	}
+
+	public List<Movie> getEarlyMovies(){
+		ArrayList<Movie> early = new ArrayList<Movie>();
+		for(Movie m : this.movies){
+			if(m.isEarly()){
+				early.add(m);
+			}
+		}
+		return early;
+	}
 }
