@@ -163,12 +163,12 @@ class MovieDatabase implements FileOperations {
 				Order order = new Order(orderID, results.getString("Email"));
 				selectTickets.setInt(1, orderID);
 				ResultSet tickets = selectTickets.executeQuery();
-				// while (tickets.next()) {
-				// 	order.addTicket(tickets.getInt("TicketID"),
-				// 	tickets.getInt("SColumn"),
-				// 	tickets.getInt("SRow"),
-				// 	tickets.getInt("ShowtimeID"));
-				// }
+				while (tickets.next()) {
+					order.addTicket(tickets.getInt("TicketID"),
+					tickets.getInt("SColumn"),
+					tickets.getInt("SRow"),
+					tickets.getInt("ShowtimeID"));
+				}
 				orders.add(order);
 			}
 			selectTickets.close();

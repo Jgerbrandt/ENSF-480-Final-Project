@@ -12,7 +12,9 @@ class Order {
         tickets = new ArrayList<Ticket>();
     }
 
-    public void addTicket(Ticket ticket) {
+
+    public void addTicket(int id, int col, int row. int showtimeID) {
+	    Ticket ticket = new Ticket(id,col,row,showtimeID);
         tickets.add(ticket);
     }
 
