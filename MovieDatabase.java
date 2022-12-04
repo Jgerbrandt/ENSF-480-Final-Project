@@ -60,7 +60,7 @@ class MovieDatabase implements FileOperations {
 			Statement selectAllStatement = initializeConnection().createStatement();
 			ResultSet results = selectAllStatement.executeQuery("SELECT * FROM discountcodes");
 			while (results.next()) {
-				DiscountCode disc = new DiscountCode(results.getInt("Code"),results.getDouble("Discount"));
+				DiscountCode disc = new DiscountCode(results.getInt("Code"),results.getDouble("Discount"),results.getString("ExpirationDate"));
 				discounts.add(disc);
 			}
 			selectAllStatement.close();
@@ -134,13 +134,14 @@ class MovieDatabase implements FileOperations {
 		}	
 	}
 	
-	public void addDiscountCodeToDB(int code, double discount) {
+	public void addDiscountCodeToDB(int code, double discount,String expirationdate) {
 		try {
-			String query = "INSERT INTO discountcodes VALUES (?,?)";
+			String query = "INSERT INTO discountcodes VALUES (?,?,?)";
 			Connection con = initializeConnection();
 			PreparedStatement insertStatement = con.prepareStatement(query);
 			insertStatement.setInt(1, code);
 			insertStatement.setDouble(2, discount);
+			insertStatement.setString(3, expirationdate);
 			insertStatement.executeUpdate();
 			insertStatement.close();
 			closeConnection(con);
@@ -194,4 +195,3 @@ class MovieDatabase implements FileOperations {
 	}
 	
 }
-
