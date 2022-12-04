@@ -19,7 +19,7 @@ class Theatre {
 	public Theatre(MovieDatabase theatredb) {
 		movies = theatredb.readMovies();
 		orders = theatredb.readOrders();	
-		discounts = theatre.readDiscountCodes();
+		discounts = theatredb.readDiscountCodes();
 		theatredb.setMaxOrderID();
 		theatredb.setMaxTicketID();
 		theatredb.setMaxShowtimeID();
