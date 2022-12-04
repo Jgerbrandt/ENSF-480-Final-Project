@@ -101,7 +101,7 @@ class MovieDatabase implements FileOperations {
 		return movies;
 	}
 	
-	public void addTicketToDB(Ticket ticket, orderID) {
+	public void addTicketToDB(Ticket ticket, int orderID) {
 		try {
 			String query = "INSERT INTO ticket VALUES (?,?,?,?,?)";
 			Connection con = initializeConnection();
@@ -133,10 +133,10 @@ class MovieDatabase implements FileOperations {
 			closeConnection(con);
 			Iterator<Ticket> tickets = order.getTickets().iterator();
 			while (tickets.hasNext()) {
-				addTicketToDB(ticket.next(), order.getOrderID());	
+				addTicketToDB(tickets.next(), order.getOrderID());	
 			}
 		} catch (SQLException ex) {
-			System.out.println("Could not insert order " + orderID);
+			System.out.println("Could not insert order " + order.getOrderID());
 		}	
 	}
 	
