@@ -9,7 +9,7 @@ class MovieDatabase implements FileOperations {
 			if (results.next()) {
 				Order.OrderIDCounter = results.getInt(1);
 			}
-
+			selectAllStatement.close();
 		} catch (SQLException ex) {
 			System.out.println("SQL exception has occured in maxOrder.");
 		}		
@@ -22,8 +22,22 @@ class MovieDatabase implements FileOperations {
 			if (results.next()) {
 				Ticket.TicketIDCounter = results.getInt(1);
 			}
+			selectAllStatement.close();
 		} catch (SQLException ex) {
 			System.out.println("SQL exception has occured in maxTicket.");
+		}		
+	}
+	
+	public void setMaxCodeCounter() {
+		try {
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT MAX(Code) FROM discountcodes");
+			if (results.next()) {
+				DiscountCode.CodeIDCounter = results.getInt(1);
+			}
+			selectAllStatement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQL exception has occured in maxCode.");
 		}		
 	}
 	
@@ -34,9 +48,27 @@ class MovieDatabase implements FileOperations {
 			if (results.next()) {
 				Showtime.ShowtimeIDCounter = results.getInt(1);
 			}
+			selectAllStatement.close();
 		} catch (SQLException ex) {
 			System.out.println("SQL exception has occured in maxShowtime.");
 		}		
+	}
+
+	public List<DiscountCode> readDiscountCodes() {
+		List<DiscountCode> discounts = new ArrayList<DiscountCode>();
+		try {
+			Statement selectAllStatement = initializeConnection().createStatement();
+			ResultSet results = selectAllStatement.executeQuery("SELECT * FROM discountcodes");
+			while (results.next()) {
+				DiscountCode disc = new DiscountCode(results.getInt("Code"),results.getDouble("Discount"),results.getString("ExpirationDate"));
+				discounts.add(disc);
+			}
+			selectAllStatement.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println("SQL exception has occured in readCodes.");
+		}
+		return discounts;		
 	}
 	
 	public List<Movie> readMovies() {
@@ -69,6 +101,55 @@ class MovieDatabase implements FileOperations {
 		return movies;
 	}
 	
+	public void addTicketToDB(int ticketID, int orderID, int row, int col, int showtimeID) {
+		try {
+			String query = "INSERT INTO ticket VALUES (?,?,?,?,?)";
+			Connection con = initializeConnection();
+			PreparedStatement insertStatement = con.prepareStatement(query);
+			insertStatement.setInt(1, ticketID);
+			insertStatement.setInt(2, orderID);
+			insertStatement.setInt(3, row);
+			insertStatement.setInt(4, col);
+			insertStatement.setInt(5, showtimeID);
+			insertStatement.executeUpdate();
+			insertStatement.close();
+			closeConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("Could not insert ticket " + orderID);
+		}	
+	}
+	
+	public void addOrderToDB(int orderID, String email) {
+		try {
+			String query = "INSERT INTO orders VALUES (?,?)";
+			Connection con = initializeConnection();
+			PreparedStatement insertStatement = con.prepareStatement(query);
+			insertStatement.setInt(1, orderID);
+			insertStatement.setString(2, email);
+			insertStatement.executeUpdate();
+			insertStatement.close();
+			closeConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("Could not insert order " + orderID);
+		}	
+	}
+	
+	public void addDiscountCodeToDB(DiscountCode dc) {
+		try {
+			String query = "INSERT INTO discountcodes VALUES (?,?,?)";
+			Connection con = initializeConnection();
+			PreparedStatement insertStatement = con.prepareStatement(query);
+			insertStatement.setInt(1, dc.getCode());
+			insertStatement.setDouble(2, dc.getDiscount());
+			insertStatement.setString(3, dc.getExp());
+			insertStatement.executeUpdate();
+			insertStatement.close();
+			closeConnection(con);
+		} catch (SQLException ex) {
+			System.out.println("Could not insert discount " + dc.getCode());
+		}
+	}
+	
 	public List<Order> readOrders() {
 		List<Order> orders = new ArrayList<Order>();
 		try {
@@ -78,22 +159,15 @@ class MovieDatabase implements FileOperations {
 			Connection con = initializeConnection();
 			PreparedStatement selectTickets = con.prepareStatement(query);
 			while (results.next()) {
-				Order order;
 				int orderID = results.getInt("OrderID");
-				String email = results.getString("RegisteredEmail");
-				if (results.wasNull()) {
-					order = new Order(orderID, results.getString("OrdinaryEmail"));
-				}
-				else {
-					order = new Order(orderID, email);
-				}
+				Order order = new Order(orderID, results.getString("Email"));
 				selectTickets.setInt(1, orderID);
 				ResultSet tickets = selectTickets.executeQuery();
 				while (tickets.next()) {
-				 	order.addTicket(tickets.getInt("TicketID"),
+					order.addTicket(tickets.getInt("TicketID"),
 					tickets.getInt("SColumn"),
-				 	tickets.getInt("SRow"),
-				 	tickets.getInt("ShowtimeID"));
+					tickets.getInt("SRow"),
+					tickets.getInt("ShowtimeID"));
 				}
 				orders.add(order);
 			}
@@ -118,5 +192,5 @@ class MovieDatabase implements FileOperations {
 		} catch (SQLException ex) {
 			System.out.println("Could not remove order " + id);
 		}
-	}
+	}	
 }
