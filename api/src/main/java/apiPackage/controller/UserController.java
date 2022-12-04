@@ -39,7 +39,22 @@ public class UserController {
 	}
 	
 	
+	@RequestMapping(method=RequestMethod.POST, value="/users/remove")
+	public void removeUser(@RequestBody User newUser) {
+		System.out.println("Removing user");
+		loggedInUser = null;
+		this.userRepo.delete(newUser); //DELETE from DB
+		getUser();
+	}
 	
+	@RequestMapping(method=RequestMethod.POST, value="/users/login")
+	public void loginUsers(@RequestBody User newUser) {
+		User foundUser = this.userRepo.find(newUser.getEmail(), newUser.getPassword());
+	}
+	
+	
+		
+		
 	@RequestMapping(method=RequestMethod.POST, value="/users")
 	public void createUsers(@RequestBody User newUser) {
 		/*
@@ -54,11 +69,10 @@ public class UserController {
 			User foundUser = this.userRepo.find(newUser.getEmail(), newUser.getPassword()); //Queries "database" for a user that matches the email and password
 			// ^^^ Returns null if no match
 			
-			if(foundUser != null) {
+			if(foundUser.getCreditCardNum() != null) {
 				//If we find a matching user: 
 				loggedInUser = foundUser; //Update loggedInUser member to interact with frontend
 				getUser(); //Updated API so frontend can see
-				
 			}
 			//No action taken if user does not exist in DB
 		}

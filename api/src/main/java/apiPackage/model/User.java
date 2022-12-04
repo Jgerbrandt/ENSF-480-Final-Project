@@ -33,7 +33,7 @@ public class User{ //public class Registered extends User{
         this.isPaid = isPaid;
         this.registeredDate = regD;
         this.renewalDate = renD;
-        this.order = new Order(orderID, email);
+        //this.order = new Order(orderID, email);
         this.password = password;
     }
     

@@ -21,6 +21,8 @@ public class Order {
         this.email = email;
         tickets = new ArrayList<Ticket>();
     }
+    
+
 
     public int getOrderID() {
 		return OrderID;

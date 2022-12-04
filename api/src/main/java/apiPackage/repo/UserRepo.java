@@ -33,5 +33,15 @@ public class UserRepo {
 		list.add(newUser); //INSERT in to DB
 	}
 	
+	public void delete(User targetUser) {
+		for(int i = 0; i<list.size(); i++) {
+			User tempUser = list.get(i);
+			if(tempUser.getEmail() == targetUser.getEmail()) {
+				list.remove(i);
+				i = 0;
+			}
+		}
+	}
+	
 
 }
