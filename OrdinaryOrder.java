@@ -77,6 +77,8 @@ public class OrdinaryOrder extends Order {
     * order confirmation receipt is sent to user
     * User pays 15% admin fee, but can redeem it at next purchase
     * DiscountCode for admin fee is created and sent to user and saved in program/DB
+    *
+    * @return if order is cancelable
     */
     @Override 
     public boolean cancelOrder() throws FileNotFoundException {
