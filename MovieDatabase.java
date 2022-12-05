@@ -1,7 +1,16 @@
+/**
+*Boundary class to interact with SQl database
+*Implements FileOperations interface
+* Can add, remove, and access data in SQL DB
+*/
+
 import java.util.*;
 import java.sql.*;
 class MovieDatabase implements FileOperations {
 	
+	/**
+	* reads all existing order IDs and sets static incrementer for future orders
+	*/
 	public void setMaxOrderID() {
 		try {
 			Statement selectAllStatement = initializeConnection().createStatement();
@@ -15,6 +24,9 @@ class MovieDatabase implements FileOperations {
 		}		
 	}
 	
+	/**
+	* reads all existing ticket IDs and sets static incrementer for future tickets
+	*/
 	public void setMaxTicketID() {
 		try {
 			Statement selectAllStatement = initializeConnection().createStatement();
@@ -28,6 +40,9 @@ class MovieDatabase implements FileOperations {
 		}		
 	}
 	
+	/**
+	* reads all existing discount code IDs and sets static incrementer for future discount codes
+	*/
 	public void setMaxCodeCounter() {
 		try {
 			Statement selectAllStatement = initializeConnection().createStatement();
@@ -41,6 +56,9 @@ class MovieDatabase implements FileOperations {
 		}		
 	}
 	
+	/**
+	* reads all existing showtime IDs and sets static incrementer for future showtimes
+	*/
 	public void setMaxShowtimeID() {
 		try {
 			Statement selectAllStatement = initializeConnection().createStatement();
@@ -53,7 +71,12 @@ class MovieDatabase implements FileOperations {
 			System.out.println("SQL exception has occured in maxShowtime.");
 		}		
 	}
-
+	
+	/**
+	* reads all existing discount cdoes and instatiates opbjects for program manipulation
+	*
+	* @return 	list of DiscountCodes from database
+	*/
 	public List<DiscountCode> readDiscountCodes() {
 		List<DiscountCode> discounts = new ArrayList<DiscountCode>();
 		try {
@@ -71,6 +94,11 @@ class MovieDatabase implements FileOperations {
 		return discounts;		
 	}
 	
+	/**
+	* reads all existing movies and instatiates opbjects for program manipulation
+	*
+	* @return 	list of Movies from database
+	*/
 	public List<Movie> readMovies() {
 		List<Movie> movies = new ArrayList<Movie>();
 		try {
@@ -101,6 +129,12 @@ class MovieDatabase implements FileOperations {
 		return movies;
 	}
 	
+	/**
+	* adds new ticket to DB for long-term storage and future access
+	*
+	* @param ticket		ticket to be added to DB
+	* @param orderID	order ID of corresponding order
+	*/
 	public void addTicketToDB(Ticket ticket, int orderID) {
 		try {
 			String query = "INSERT INTO ticket VALUES (?,?,?,?,?)";
@@ -119,6 +153,11 @@ class MovieDatabase implements FileOperations {
 		}	
 	}
 	
+	/**
+	* adds new order to DB for long-term storage and future access
+	*
+	* @param order		order to be added to DB
+	*/
 	public void addOrderToDB(Order order) {
 		try {
 			String query = "INSERT INTO orders VALUES (?,?,?,?)";
@@ -140,6 +179,11 @@ class MovieDatabase implements FileOperations {
 		}	
 	}
 	
+	/**
+	* adds new discount code to DB for long-term storage and future access
+	*
+	* @param dc		dicount code to be added to DB
+	*/
 	public void addDiscountCodeToDB(DiscountCode dc) {
 		try {
 			String query = "INSERT INTO discountcodes VALUES (?,?,?)";
@@ -156,6 +200,11 @@ class MovieDatabase implements FileOperations {
 		}
 	}
 	
+	/**
+	* reads all existing orders and instatiates opbjects for program manipulation
+	*
+	* @return 	list of Orders from database
+	*/
 	public List<Order> readOrders() {
 		List<Order> orders = new ArrayList<Order>();
 		try {
@@ -198,6 +247,11 @@ class MovieDatabase implements FileOperations {
 		return orders;
 	}	
 	
+	/**
+	* removes order from DB after cancellation
+	*
+	* @param id		id of order to be found and rmeoved from DB
+	*/
 	public void removeOrder(int id) {
 		try {
 			String query = "DELETE FROM Order WHERE OrderID = ?";
