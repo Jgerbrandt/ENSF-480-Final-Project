@@ -1,3 +1,9 @@
+/**
+*Boundary class to interact with SQl database
+* Implements FileOperations interface
+* Can add, remove, and access data in SQL DB
+*/
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
