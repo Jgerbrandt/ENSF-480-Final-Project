@@ -1,3 +1,8 @@
+/**
+* ticket object to summarize user transaction 
+* and showtime information
+*/
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -13,9 +18,15 @@ public class Ticket {
     private LocalDate showDate;
     private int showtimeID;
     public static int TicketIDCounter;
-
+    
+    /**
+    * default ctor
+    */
     public Ticket(){}
 
+     /**
+    * ctor for creating tickets from DB
+    */
     public Ticket(int ticketID, String movie, int screen, int col, int row, String time, String date, int showtimeID) {
         this.ticketID = ticketID;
         this.movieName = movie;
@@ -26,7 +37,10 @@ public class Ticket {
         this.showDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.showtimeID = showtimeID;
     }
-
+    
+    /**
+    * create ticket file to send to user
+    */
     public void createTicket() throws FileNotFoundException {
         String formattedDate = this.showDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         PrintWriter ticket = new PrintWriter("Ticket.txt");
@@ -38,7 +52,8 @@ public class Ticket {
 
         ticket.close();
     }
-
+    
+    //getters
     public int getTicketID() {
         return this.ticketID;
     }
@@ -70,7 +85,8 @@ public class Ticket {
     public String getTime(){
         return this.time;
     }
-
+    
+    //setters
     public void setTicketID() {
         this.ticketID = TicketIDCounter++;
     }
