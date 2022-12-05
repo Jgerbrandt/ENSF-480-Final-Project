@@ -121,19 +121,19 @@ public class User{
 		System.out.println(renewalDate);
 	}
 
-//    public void addToDB(){
-//        UserController uc = UserController.getLoginInstance();
-//        uc.signUp(this);
-//    }
-//
-//    public void cancelOrder(int id) throws FileNotFoundException {
-//        for(Order o : orders){
-//            if(o.getOrderID() == id){
-//                o.cancelOrder();
-//                this.orders.remove(o);
-//            }
-//        }
-//    }
+    public void addToDB(){      
+        UserController uc = UserController.getLoginInstance();
+        uc.signUp(this);
+    }
+
+    public void cancelOrder(int id) throws FileNotFoundException {
+        for(Order o : orders){
+            if(o.getOrderID() == id){
+                o.cancelOrder();
+                this.orders.remove(o);
+            }
+        }
+    }
 
     public void payAnnualFee(){
         this.isPaid = true;

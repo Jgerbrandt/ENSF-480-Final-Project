@@ -1,8 +1,8 @@
 package apiPackage.model;
 
 import java.io.FileNotFoundException;
-import java.io.FileNotFoundException;
 import java.util.List;
+import java.time.LocalDate;
 
 public class OrdinaryOrder extends Order {
 
@@ -11,7 +11,9 @@ public class OrdinaryOrder extends Order {
     private double refund;
 
     //Ordanary creates discount code
-    public OrdinaryOrder(){}
+    public OrdinaryOrder(){
+
+    }
 
     public OrdinaryOrder(String email, List<Ticket> tickets) {
         super(email, tickets);
@@ -35,21 +37,32 @@ public class OrdinaryOrder extends Order {
         return this.discount;
     }
 
-//    @Override
-//    public void payForOrder() throws FileNotFoundException {
-//        MovieDatabase movie = new MovieDatabase();
-//        movie.addOrderToDB(this); 
-//        Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this);
-//        receipt.createOrderReceipt();
-//    }
-//
-//    @Override 
-//    public void cancelOrder() throws FileNotFoundException {
-//        MovieDatabase movie = new MovieDatabase();
-//        movie.removeOrder(this.OrderID);
-//        this.discountCode = new DiscountCode(discount);
-//        Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this, this.discountCode);
-//        receipt.createRefundReceipt();
-//        movie.addDiscountCodeToDB(this.discountCode);
-//    }
+    @Override
+    public void payForOrder() throws FileNotFoundException {
+        Theatre theatre = Theatre.getTheatre();
+        MovieDatabase movie = new MovieDatabase();
+        theatre.addOrder(this);
+        movie.addOrderToDB(this); 
+        Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this);
+        receipt.createOrderReceipt();
+    }
+
+    @Override 
+    public boolean cancelOrder() throws FileNotFoundException {
+        Theatre theatre = Theatre.getTheatre();
+        MovieDatabase movie = new MovieDatabase();
+        if(!this.refundDate.isBefore(LocalDate.now())){
+            return false;
+        }
+        else {
+            theatre.removeOrder(this.OrderID);
+            movie.removeOrder(this.OrderID);
+            this.discountCode = new DiscountCode(discount);
+            Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this, this.discountCode);
+            receipt.createRefundReceipt();
+            theatre.addDiscount(this.discountCode);
+            movie.addDiscountCodeToDB(this.discountCode);
+            return true;
+        }
+    }
 }

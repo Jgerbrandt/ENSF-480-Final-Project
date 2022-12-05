@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class Order {
     protected int OrderID;
@@ -18,10 +19,15 @@ public class Order {
     protected LocalDate refundDate; 
     public static int OrderIDCounter;
 
-    public Order(){}
+
     
+    public Order() {
+    	System.out.println("In default ctor: " + this.getOrderID());
+
+    }
 
     public Order(String email, List<Ticket> tickets) {
+    	System.out.println("In 2 arg ctor: " + this.getEmail());
         this.OrderID = OrderIDCounter;
         OrderIDCounter++;
         this.email = email;
@@ -35,6 +41,7 @@ public class Order {
     }
 
     public Order(int OrderID, String email, double price, String rd) {
+        this.tickets = new ArrayList<Ticket>();
         this.OrderID = OrderID;
         this.email = email;
         this.price = price;
@@ -79,6 +86,11 @@ public class Order {
     public void setOrderID(int OrderID) {
         this.OrderID = OrderID;
     }
+    
+    public void setOrderID() {
+    	this.OrderID = OrderIDCounter;
+    	OrderIDCounter++;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -100,18 +112,34 @@ public class Order {
         this.refundDate = LocalDate.parse(refundDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
-//    public void payForOrder() throws FileNotFoundException {
+    public void payForOrder() throws FileNotFoundException {
+    	System.out.println(this.getOrderID());
+        Theatre theatre = Theatre.getTheatre();
 //        MovieDatabase movie = new MovieDatabase();
+        theatre.addOrder(this);
 //        movie.addOrderToDB(this); 
-//        Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
-//        receipt.createOrderReceipt();
-//    }
+        Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
+        //this.refundDate = tickets.get(0).getShowDate().minusDays(3);
+        this.refundDate = LocalDate.now().plusDays(2);
+        
+        receipt.createOrderReceipt();
+    }
 
-//    public void cancelOrder() throws FileNotFoundException {
-//        MovieDatabase movie = new MovieDatabase();
-//        movie.removeOrder(this.OrderID);
-//        Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
-//        receipt.createRefundReceipt();
-//    }
+    public boolean cancelOrder() throws FileNotFoundException {
+        Theatre theatre = Theatre.getTheatre();
+        MovieDatabase movie = new MovieDatabase();
+        if(!this.refundDate.isBefore(LocalDate.now())){
+        	System.out.println("Unable to cancel");
+            return false;
+        }
+        else {
+        	System.out.println("We're cancelling!");
+            theatre.removeOrder(this.OrderID);
+            movie.removeOrder(this.OrderID);
+            Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
+            receipt.createRefundReceipt();
+            return true;
+        }
+    }
 
 }

@@ -9,6 +9,7 @@ package apiPackage.controller;
 
 
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import apiPackage.model.Order;
 import apiPackage.model.OrdinaryOrder;
-import apiPackage.repo.OrderRepo;
+import apiPackage.model.Theatre;
+
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping("api/")
-public class OrderController {
+public class OrderApi {
+	private Theatre theatre = Theatre.getTheatre();
 	
-	@Autowired
-	private OrderRepo orderRepo; //"Database" to refer to: Right now its just an arraylist 
+	
 	
 	private List<Order> myOrders = new ArrayList<Order>();
 	
@@ -42,25 +44,27 @@ public class OrderController {
 	
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders")
-	public void receiveOrder(@RequestBody OrdinaryOrder newOrder) {
+	public void receiveOrder(@RequestBody OrdinaryOrder newOrder) throws FileNotFoundException {
 		//NEEDS CHANGE:
 		//Functions receives an Order object from front end
 		//Will need to database it or whatever
 		//Needs to set OrderID and TicketID here
 		//Takes Regular User Orders
+		newOrder.setOrderID();
 		System.out.println("Order Received");
 		//System.out.println(newOrder.getTickets().get(0).getMovieName());
 		myOrders.clear();
 		//Check to see if order is cancellable!!
-		this.orderRepo.add(newOrder);
+		newOrder.payForOrder();
 		//IMPLEMENT: Generate TicketID and OrderID
 		//IMPLEMENT: Add to database
 		getOrder();	
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/reg")
-	public void receiveRegOrder(@RequestBody Order newOrder) {
+	public void receiveRegOrder(@RequestBody Order newOrder) throws FileNotFoundException {
 		System.out.println("Reg order received");
+		newOrder.setOrderID();
 		//NEEDS CHANGE:
 		//Functions receives an Order object from front end
 		//Will need to database it or whatever
@@ -69,7 +73,8 @@ public class OrderController {
 		//Takes Registered User Orders (Logic same as normal users rn)
 		myOrders.clear();
 		//Check to see if order is cancellable!!
-		this.orderRepo.add(newOrder);
+		//theatre.addOrder(newOrder);
+		newOrder.payForOrder();
 		//IMPLEMENT: Add order to user
 		//IMPLEMENT: Generate TicketID and OrderID
 		//IMPLEMENT: Add to database
@@ -77,24 +82,38 @@ public class OrderController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/cancel")
-	public void cancelOrder(@RequestBody OrdinaryOrder newOrder) {
+	public void cancelOrder(@RequestBody OrdinaryOrder newOrder) throws FileNotFoundException {
 		System.out.println("Order cancel request");
 		myOrders.clear();
-		this.orderRepo.cancel(newOrder); //Removes instance newOrder from Database
-		//IMPLEMENT: Generate discount code.
-		//IMPLEMENT: Seat map update
-		//IMPLEMENT: Check if order is cancellable
+		Boolean check = newOrder.cancelOrder(); //Removes instance newOrder from Database
+		if(!check) {
+			System.out.println("cancel failed");
+			newOrder.setOrderID(-1);
+			myOrders.add(newOrder);
+		}
+		//Returns true if cancelled
+		//False if not cancelled
+
+
+
 		getOrder();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/cancel/reg")
-	public void cancelOrder(@RequestBody Order newOrder) {
+	public void cancelOrder(@RequestBody Order newOrder) throws FileNotFoundException {
 		System.out.println("Order cancel request REGISTERED");
 		myOrders.clear();
-		this.orderRepo.cancel(newOrder); //Removes instance newOrder from Database
-		//IMPLEMENT: Generate discount code.
-		//IMPLEMENT: Seat map update
-		//IMPLEMENT: Check if order is cancellable
+		Boolean check = newOrder.cancelOrder();//Removes instance newOrder from Database
+		//Returns true if cancelled
+		//False if not cancelled
+		if(!check) {
+			System.out.println("cancel failed");
+			newOrder.setOrderID(-1);
+			myOrders.add(newOrder);
+		}
+		
+		
+		
 		getOrder();
 	}
 	
@@ -104,12 +123,18 @@ public class OrderController {
 	public void validateOrder(@RequestBody Order newOrder) {
 		//Only looks at reg orders
 		System.out.println("Validating Order");
+		System.out.println("Order ID:" + newOrder.getOrderID());
+		System.out.println("Email:" + newOrder.getEmail());
 		//Checks incoming order, returns matching order
 		myOrders.clear();
 		String orderEmail = newOrder.getEmail();
 		int orderID = newOrder.getOrderID();
-		Order foundOrder = this.orderRepo.validate(orderEmail, orderID);
-		if(foundOrder != null) {
+		System.out.println("Searching for Orders: " + orderEmail + " " + orderID);
+		Order foundOrder = theatre.findOrder(orderID, orderEmail);
+		if(foundOrder == null) {
+			System.out.println("Order not found :(");
+		}
+		else {
 			myOrders.add(foundOrder);
 		}
 		getOrder();

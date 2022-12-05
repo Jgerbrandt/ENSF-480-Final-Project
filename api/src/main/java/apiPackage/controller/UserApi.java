@@ -17,20 +17,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import apiPackage.model.Theatre;
 import apiPackage.model.User;
+import apiPackage.model.UserController;
 import apiPackage.repo.UserRepo;
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping("api/")
-public class UserController {
+
+public class UserApi {
+	private UserController controller = UserController.getLoginInstance();
+	
 	//Can view 1 logged in user at a time, work-around for keeping logic in the backend
 	private User loggedInUser = null; 
 	
 	
-	@Autowired
-	private UserRepo userRepo; //"Database" to refer to: Is just an arraylist here
-	
+//	@Autowired
+//	private UserRepo userRepo; //"Database" to refer to: Is just an arraylist here
+//	
 	
 	
 	@GetMapping(value="users")
@@ -43,14 +48,16 @@ public class UserController {
 	public void removeUser(@RequestBody User newUser) {
 		System.out.println("Removing user");
 		loggedInUser = null;
-		this.userRepo.delete(newUser); //DELETE from DB
+		controller.delete(newUser); //DELETE from DB
+		getUser();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/users/pay")
 	public void receivePayment(@RequestBody User targetUser) {
 		System.out.println("Payment Received");
 		targetUser.payAnnualFee();
-		this.userRepo.update(targetUser); //Update DB with new info
+		
+		controller.updateUser(targetUser); //Update DB with new info
 		//IMPLEMENT (?): Generate a receipt for payment
 		getUser();
 	}
@@ -74,7 +81,7 @@ public class UserController {
 
 		if(newUser.getCreditCardNum().isBlank()) {
 			//Login Process
-			User foundUser = this.userRepo.find(newUser.getEmail(), newUser.getPassword()); //Queries "database" for a user that matches the email and password
+			User foundUser = controller.verifyUser(newUser); //Queries "database" for a user that matches the email and password
 			// ^^^ Returns null if no match
 			
 			if(foundUser != null) {
@@ -91,15 +98,21 @@ public class UserController {
 			//Register Process
 			//Sets Registered/Renewal Dates 
 			
-			newUser.setRenewalDate(LocalDate.now());
+			User correct = controller.parseInput(newUser);
+			//User correct = newUser;
+			System.out.println(correct.getEmail());
+			if(correct.getEmail() != null) {
+				controller.signUp(newUser);
+			}
+			loggedInUser = correct;
+			
+
 			
 			
 //			newUser.setregisteredDate(LocalDate.now());
 //			newUser.setrenewalDate(LocalDate.now().plusYears(1));
 			
 			
-			this.userRepo.save(newUser); //INSERT in to "Database"
-			loggedInUser = newUser; //Set loggedInUser member to interact with frontend
 			
 			getUser(); //Update API so frontend can see
 		}

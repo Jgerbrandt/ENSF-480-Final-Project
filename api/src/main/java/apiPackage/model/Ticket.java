@@ -20,7 +20,10 @@ public class Ticket {
     private int showtimeID;
     public static int TicketIDCounter;
 
-    public Ticket(){}
+    public Ticket(){
+    	this.ticketID = TicketIDCounter;
+    	TicketIDCounter++;
+    }
 
     public Ticket(int ticketID, String movie, int screen, int col, int row, String time, String date, int showtimeID) {
         this.ticketID = ticketID;
