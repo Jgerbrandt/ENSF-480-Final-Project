@@ -40,9 +40,8 @@ public class DiscountCode {
 		this.discount = discount;
         this.exp = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
-	/**
-	* getters
-	*/
+	
+	//getters
     public int getCode(){ return this.code; }
     public double getDiscount(){ return this.discount; }
     public String getExp(){ 
