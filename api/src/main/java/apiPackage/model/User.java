@@ -6,63 +6,143 @@
  * Removed payForOrder() as it was dependant on inheritance
  * Added Password member for login purposes
  */
-
 package apiPackage.model;
+
+import java.io.FileNotFoundException;
 import java.lang.String;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
-public class User{ //public class Registered extends User{
-    
+public class User{
+
     private String name;
+    private String password;
     private String creditCardNum;
     private String address;
     private String email;
     private boolean isPaid;
-    private LocalDate registeredDate;
     private LocalDate renewalDate;
-    private Order order;
-    private String password;
-    private int orderID = (int) Math.floor(Math.random() * 9_000_000_00) + 1_000_000_00;
+    private List<Order> orders;
 
-    //public Register
-    public User(String n, String ccn, String addr, String email, boolean isPaid, LocalDate regD, LocalDate renD, String password) {
+    public User(){ }
+
+    public User(String n, String pass, String ccn, String addr, String email, boolean isPaid, String renDate) {
         this.name = n;
+        this.password = pass;
         this.creditCardNum = ccn;
         this.address = addr;
         this.email = email;
         this.isPaid = isPaid;
-        this.registeredDate = regD;
-        this.renewalDate = renD;
-        //this.order = new Order(orderID, email);
+        setRenewalDate(renDate);
+        checkRenewal();
+        this.orders = new ArrayList<Order>();
+    }
+
+    //add to database
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getCreditCardNum() {
+        return this.creditCardNum;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public boolean getIsPaid() {
+        return this.isPaid;
+    }
+
+    public LocalDate getrenewalDate() {
+        return this.renewalDate;
+    }
+
+    public List<Order> getOrders() {
+        return this.orders;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
     }
-    
-    
 
-    public String getName() {return this.name;}
-    public String getCreditCardNum() {return this.creditCardNum;}
-    public String getAddress() { return this.address;}
-    public String getEmail() {return this.email;}
-    public boolean getIsPaid() {return this.isPaid;}
-    public LocalDate getregisteredDate() {return this.registeredDate;}
-    public LocalDate getrenewalDate() {return this.renewalDate;}
-    public Order getOrder() {return this.order;}
-    public String getPassword() {return this.password;}
-
-    public void setName(String name) {this.name = name;}
-    public void setCreditCardNum(String creditCardNum) {this.creditCardNum = creditCardNum;}
-    public void setAddress(String address) {this.address = address;}
-    public void setEmail(String email) {this.email = email;}
-    public void setIsPaid(boolean isPaid) {this.isPaid = isPaid;}
-    public void setregisteredDate(LocalDate registeredDate) {this.registeredDate = registeredDate;}
-    public void setrenewalDate(LocalDate renewalDate) {this.renewalDate = renewalDate;}
-    public void setPassword(String password) {this.password = password;}
-
-    //Caused errors as inheritance was needed
-    /*
-    @Override
-    public void payForOrder() {
-
+    public void setCreditCardNum(String creditCardNum) {
+        this.creditCardNum = creditCardNum;
     }
-    */
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setIsPaid(boolean isPaid) {
+        this.isPaid = isPaid;
+    }
+    
+    public void addOrder(Order order) {
+		orders.add(order);
+	}
+    
+    public void setRenewalDate(String renDate) { this.renewalDate = LocalDate.parse(renDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));}
+
+    public void setRenewalDate(LocalDate today) {
+        this.renewalDate = today;
+    }
+    
+    public void display() {
+		if (this.email == null) {	
+			System.out.println("check");
+		}
+		else {
+			System.out.println(email);
+		}
+		System.out.println(name);
+		System.out.println(password);
+		System.out.println(address);
+		System.out.println(creditCardNum);
+		System.out.println(renewalDate);
+	}
+
+//    public void addToDB(){
+//        UserController uc = UserController.getLoginInstance();
+//        uc.signUp(this);
+//    }
+//
+//    public void cancelOrder(int id) throws FileNotFoundException {
+//        for(Order o : orders){
+//            if(o.getOrderID() == id){
+//                o.cancelOrder();
+//                this.orders.remove(o);
+//            }
+//        }
+//    }
+
+    public void payAnnualFee(){
+        this.isPaid = true;
+        this.renewalDate = LocalDate.now().plusYears(1);
+    }
+
+    private void checkRenewal(){
+        if(this.renewalDate.isBefore(LocalDate.now())){
+            this.isPaid = false;
+        }
+    }
 }

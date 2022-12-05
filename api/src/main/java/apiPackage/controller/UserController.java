@@ -41,14 +41,15 @@ public class UserController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/users/remove")
 	public void removeUser(@RequestBody User newUser) {
+		System.out.println("Removing user");
 		loggedInUser = null;
 		this.userRepo.delete(newUser); //DELETE from DB
-		getUser();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/users/pay")
 	public void receivePayment(@RequestBody User targetUser) {
-		targetUser.setIsPaid(true); //Update flag on target user
+		System.out.println("Payment Received");
+		targetUser.payAnnualFee();
 		this.userRepo.update(targetUser); //Update DB with new info
 		//IMPLEMENT (?): Generate a receipt for payment
 		getUser();
@@ -62,6 +63,7 @@ public class UserController {
 		
 	@RequestMapping(method=RequestMethod.POST, value="/users")
 	public void createUsers(@RequestBody User newUser) {
+		System.out.println("In create user");
 
 		/*
 		 *  Handles both Register and Login logic
@@ -89,8 +91,11 @@ public class UserController {
 			//Register Process
 			//Sets Registered/Renewal Dates 
 			
-			newUser.setregisteredDate(LocalDate.now());
-			newUser.setrenewalDate(LocalDate.now().plusYears(1));
+			newUser.setRenewalDate(LocalDate.now());
+			
+			
+//			newUser.setregisteredDate(LocalDate.now());
+//			newUser.setrenewalDate(LocalDate.now().plusYears(1));
 			
 			
 			this.userRepo.save(newUser); //INSERT in to "Database"

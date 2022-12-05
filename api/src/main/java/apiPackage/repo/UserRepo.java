@@ -22,8 +22,8 @@ public class UserRepo {
 		System.out.println("saving details");
 		User savedUser = find(targetUser.getEmail(), targetUser.getPassword());
 		savedUser.setIsPaid(true);
-		savedUser.setregisteredDate(LocalDate.now());
-		savedUser.setrenewalDate(LocalDate.now().plusYears(1));	
+//		savedUser.setregisteredDate(LocalDate.now());
+//		savedUser.setrenewalDate(LocalDate.now().plusYears(1));	
 	}
 	
 	

@@ -14,8 +14,10 @@ public class DiscountRepo {
 	public double checkDiscounts(int code) {
 		for(int i = 0; i < list.size(); i++) {
 			DiscountCode tempCode = list.get(i);
+			System.out.println(tempCode.getCode());
 			if(tempCode.getCode() == code) {
 				Double returnValue = tempCode.getDiscount();
+				System.out.println(returnValue);
 				list.remove(i);
 				return returnValue;
 				

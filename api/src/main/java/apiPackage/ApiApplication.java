@@ -23,7 +23,6 @@ import apiPackage.model.Order;
 import apiPackage.model.Showtime;
 import apiPackage.model.Ticket;
 import apiPackage.repo.OrderRepo;
-import apiPackage.model.Showtime;
 
 @SpringBootApplication
 public class ApiApplication implements CommandLineRunner {
@@ -51,18 +50,25 @@ public class ApiApplication implements CommandLineRunner {
 		Movie testMovie1 = new Movie("Lord of the Rings", "01-06-2020");
 		Movie testMovie2 = new Movie("Avengers", "05-12-2022");
 
-		Showtime testShowtime = new Showtime(1, "05-12-2022", "9:00pm");
-		testMovie1.addShowtime(1, "05-12-2022", "9:00pm");
-		testMovie1.addShowtime(2, "06-12-2022", "10:00pm");
-		testMovie1.addShowtime(3, "06-12-2022", "8:30pm");
+		//Method 1:
+//		Showtime testShowtime = new Showtime(1, 2, "05-12-2022", "9:00pm", testMovie1);
+//		testMovie1.addShowtime(testShowtime);
 		
-		testMovie2.addShowtime(4, "05-12-2022", "9:30pm");
-		testMovie2.addShowtime(5, "07-12-2022", "9:30pm");
+		//Method 2:
+		testMovie1.addShowtime(1, 3, "05-12-2022", "9:00pm", LocalDate.of(2020, 06, 01));
+		
+		
+		
+//		testMovie1.addShowtime(2, 4,"06-12-2022", "10:00pm");
+//		testMovie1.addShowtime(3, 5, "06-12-2022", "8:30pm");
+//		
+//		testMovie2.addShowtime(4, 6, "05-12-2022", "9:30pm");
+//		testMovie2.addShowtime(5, 7, "07-12-2022", "9:30pm");
 		
 		this.movieRepo.save(testMovie1);
 		this.movieRepo.save(testMovie2);
 		
-		DiscountCode testDiscount = new DiscountCode(12345, 5);
+		DiscountCode testDiscount = new DiscountCode(5);
 		this.discountRepo.add(testDiscount);
 		
 //		Order testOrder = new Order(0, "testEmail");

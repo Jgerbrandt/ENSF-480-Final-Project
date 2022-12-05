@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import apiPackage.model.Order;
+import apiPackage.model.OrdinaryOrder;
 import apiPackage.repo.OrderRepo;
 
 @CrossOrigin(origins="http://localhost:3000")
@@ -41,7 +42,7 @@ public class OrderController {
 	
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders")
-	public void receiveOrder(@RequestBody Order newOrder) {
+	public void receiveOrder(@RequestBody OrdinaryOrder newOrder) {
 		//NEEDS CHANGE:
 		//Functions receives an Order object from front end
 		//Will need to database it or whatever
@@ -59,6 +60,7 @@ public class OrderController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/reg")
 	public void receiveRegOrder(@RequestBody Order newOrder) {
+		System.out.println("Reg order received");
 		//NEEDS CHANGE:
 		//Functions receives an Order object from front end
 		//Will need to database it or whatever
@@ -75,7 +77,19 @@ public class OrderController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/cancel")
+	public void cancelOrder(@RequestBody OrdinaryOrder newOrder) {
+		System.out.println("Order cancel request");
+		myOrders.clear();
+		this.orderRepo.cancel(newOrder); //Removes instance newOrder from Database
+		//IMPLEMENT: Generate discount code.
+		//IMPLEMENT: Seat map update
+		//IMPLEMENT: Check if order is cancellable
+		getOrder();
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/orders/cancel/reg")
 	public void cancelOrder(@RequestBody Order newOrder) {
+		System.out.println("Order cancel request REGISTERED");
 		myOrders.clear();
 		this.orderRepo.cancel(newOrder); //Removes instance newOrder from Database
 		//IMPLEMENT: Generate discount code.
@@ -88,6 +102,8 @@ public class OrderController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/orders/validate")
 	public void validateOrder(@RequestBody Order newOrder) {
+		//Only looks at reg orders
+		System.out.println("Validating Order");
 		//Checks incoming order, returns matching order
 		myOrders.clear();
 		String orderEmail = newOrder.getEmail();
@@ -98,4 +114,6 @@ public class OrderController {
 		}
 		getOrder();
 	}
+	
+
 }

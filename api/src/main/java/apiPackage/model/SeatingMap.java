@@ -1,16 +1,17 @@
-/*
- * All classes in Model package are more or less copy pasted from classes you guys have built
- * Changes from Git: Added Buy Seats method which takes an ordered pair of seats and reserves them in the map
- */
-
 package apiPackage.model;
+import java.time.LocalDate;
 
 public class SeatingMap{
     private int[][] seats;
+    private LocalDate earlyAccess;
+    private LocalDate releaseDate;
     private boolean tenPercentSold = false; 
     private boolean soldOut = false;
+    private static double price = 10;
 
-    public SeatingMap(){
+    public SeatingMap(LocalDate rd){
+        this.releaseDate = rd;
+        this.earlyAccess = rd.minusWeeks(1);
         this.seats = new int[10][10];
         for(int i = 0; i < seats.length; i++){
             for(int j = 0; j < seats[i].length; j++){
@@ -22,14 +23,7 @@ public class SeatingMap{
     public int[][] getSeats() { return this.seats; }
     public boolean getTenPercent() {return this.tenPercentSold; }
     public boolean getSoldOut() { return this.soldOut; }
-    
-    
-    //NEW FUNCTION:
-    public void buySeats(int[] seatPair) {
-    	this.seats[seatPair[0]][seatPair[1]] = 1;
-    	checkSoldOut();
-    	checkTenPercent();
-    }
+    public static double getPrice(){ return price; }
 
     public void checkSoldOut(){
         int count = 0;
@@ -41,10 +35,10 @@ public class SeatingMap{
             }
         }
         if (count == 100){
-            soldOut = true;
+            this.soldOut = true;
         }
         else {
-            soldOut = false;
+            this.soldOut = false;
         }
     }
 
@@ -57,13 +51,24 @@ public class SeatingMap{
                 }
             }
         }
-        if (count >= 10){
-            tenPercentSold = true;
+        if (count >= 10 && isEarly()){
+                this.tenPercentSold = true;
         }
         else {
-            tenPercentSold = false;
+            this.tenPercentSold = false;
         }
     }
 
-    
+    public void buySeats(int[] seatPair) {
+        this.seats[seatPair[0]][seatPair[1]] = 1;
+    }
+
+    public boolean isEarly(){
+        if (LocalDate.now().isAfter(this.earlyAccess) && LocalDate.now().isBefore(this.releaseDate)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

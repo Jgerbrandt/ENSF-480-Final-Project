@@ -33,12 +33,10 @@ public class DiscountController {
 		@RequestMapping(method=RequestMethod.POST, value="/discount")
 		public void checkDiscount(@RequestBody DiscountCode code) {
 			//Check if discount code matches DB
+			System.out.println("Checking for discount code");
+			System.out.println(code.getCode());
 			currentDiscount = discountRepo.checkDiscounts(code.getCode());
 			getDiscount();
-			
-			
-			
-			
 		}
 
 }
