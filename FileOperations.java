@@ -1,3 +1,8 @@
+/**
+* FileOperations interface realized by DB boundary classes
+* allows connection to SQl database
+*/
+
 import java.sql.*;
 
 interface FileOperations {
