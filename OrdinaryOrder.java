@@ -51,7 +51,7 @@ public class OrdinaryOrder extends Order {
         this.discountCode = new DiscountCode(discount);
         Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this, this.discountCode);
         receipt.createRefundReceipt();
-        theatre.addDiscount(this.discount);
+        theatre.addDiscount(this.discountCode);
         movie.addDiscountCodeToDB(this.discountCode);
     }
 }
