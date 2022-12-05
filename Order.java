@@ -12,6 +12,8 @@ public class Order {
     protected LocalDate refundDate; 
     public static int OrderIDCounter;
 
+    public Order(){}
+
     public Order(String email, List<Ticket> tickets) {
         this.OrderID = OrderIDCounter;
         OrderIDCounter++;
@@ -33,7 +35,7 @@ public class Order {
     }
 
     public void addTicket(int ticketID, String movie, int screen, int col, int row, String time, String date, int stID) {
-        tickets.add(new Ticket(ticketID, this.OrderID, movie, screen, col, row, time, date, stID));
+        tickets.add(new Ticket(ticketID, movie, screen, col, row, time, date, stID));
     }
 
     public int getOrderID() {
@@ -57,7 +59,13 @@ public class Order {
     }
 
     public String getRefundDate() {
-        String formattedDate = this.refundDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        String formattedDate;
+        if(this.refundDate != null){
+            formattedDate = this.refundDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        }
+        else{
+            formattedDate = null;
+        }
         return formattedDate;
     }
 
