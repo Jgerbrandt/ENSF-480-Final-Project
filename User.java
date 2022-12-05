@@ -15,6 +15,8 @@ public class User{
     private LocalDate renewalDate;
     private List<Order> orders;
 
+    public User(){ }
+
     public User(String n, String pass, String ccn, String addr, String email, boolean isPaid, String renDate) {
         this.name = n;
         this.password = pass;
@@ -90,6 +92,10 @@ public class User{
 	}
     
     public void setRenewalDate(String renDate) { this.renewalDate = LocalDate.parse(renDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));}
+
+    public void setRenewalDate(LocalDate today) {
+        this.renewalDate = today;
+    }
     
     public void display() {
 		if (this.email == null) {	
