@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public class OrdinaryOrder extends Order {
 
@@ -7,6 +8,11 @@ public class OrdinaryOrder extends Order {
     private double refund;
 
     //Ordanary creates discount code
+    public OrdinaryOrder(){}
+
+    public OrdinaryOrder(String email, List<Ticket> tickets) {
+        super(email, tickets);
+    }
     
     public OrdinaryOrder(int OrderID, String tickets, double price, String refundDate) {
         super(OrderID, tickets, price, refundDate);
