@@ -1,3 +1,10 @@
+/**
+* Showtime class holds information for specific movie showings
+* includes seat map of available seats
+* and time information
+*
+*/
+
 import java.lang.String;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +16,17 @@ public class Showtime {
     private LocalDate showDate;
     private String time; //hh:mmam/pm
     SeatingMap seatMap;
-
+	
+	/**
+	* ctor to create new showtimes for each movie
+	*
+	* @param id	unique showtime id
+	* @param s	screen where movie is showing
+	* @param sd	showtime date
+	* @param t	showtime time
+	* @param rd	release date of shown movie
+	*
+	*/
     public Showtime(int id, int s, String sd, String t, LocalDate rd){
         this.id = id;
         this.screen = s;
