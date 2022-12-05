@@ -22,7 +22,7 @@ public class Order {
         }
         this.price = (double) tickets.size() * 10;
         this.purchaseDate = LocalDate.now();
-        this.refundDate = tickets.get(0).getShowtime().getShowDate().minusDays(3);
+        this.refundDate = tickets.get(0).getShowDate().minusDays(3);
     }
 
     public Order(int OrderID, String email, double price, String rd) {
@@ -32,8 +32,8 @@ public class Order {
         this.refundDate = LocalDate.parse(rd, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
-    public void addTicket(int ticketID, int col, int row, int stID) {
-        tickets.add(new Ticket(ticketID, this.OrderID, col, row, stID));
+    public void addTicket(int ticketID, String movie, int screen, int col, int row, String time, String date, int stID) {
+        tickets.add(new Ticket(ticketID, this.OrderID, movie, screen, col, row, time, date, stID));
     }
 
     public int getOrderID() {
