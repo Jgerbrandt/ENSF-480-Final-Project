@@ -1,3 +1,9 @@
+
+/**
+* OrdinaryReceipt implements Receipt interface
+* creates text file of receipt info
+*/
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -9,12 +15,23 @@ public class RegisteredReceipt implements Receipt {
     private String email;
     private Order order;
 
+    /**
+    * Create new receipt object as for creating order receipt
+    *
+    * @param t  list of tickets included in order
+    * @param em user email tied to order
+    * @param o  order in which recipt is being made for
+    */
     public RegisteredReceipt(List<Ticket> t, String em, Order o){
         this.tickets = t;
         this.email = em;
         this.order = o;
     }
-
+    
+    /**
+    * create text file to send to user with order confimration details
+    *
+    */
     @Override
     public void createOrderReceipt() throws FileNotFoundException {
         PrintWriter orderReceipt = new PrintWriter("OrderReceipt.txt");
@@ -31,6 +48,10 @@ public class RegisteredReceipt implements Receipt {
         orderReceipt.close();
     }
 
+    /**
+    * create text file to send to user with order cancellation details
+    *
+    */
     @Override
     public void createRefundReceipt() throws FileNotFoundException {
         LocalDate today = LocalDate.now();
