@@ -1,3 +1,10 @@
+/**
+* Theatre class holds all database information
+* initialize on programming start up
+*
+* Singleton design to ensure only instance
+*/
+
 package apiPackage.model;
 
 import java.util.*;
@@ -18,14 +25,22 @@ public class Theatre {
     
     private UserController loginserver;
     
+	/**
+	*deafult ctor
+	*/
     public Theatre() {
     	
     }
-
+	/**
+	* add items to run time arrays
+	*/
     public void addMovie(Movie newMovie) {movies.add(newMovie);}
     public void addOrder(Order newOrder) {orders.add(newOrder);}
     public void addDiscount(DiscountCode newDiscount) {discounts.add(newDiscount);}
     
+	/**
+	*remove items from dynamic arrays
+	*/
     public void removeOrder(int orderID) {
 		for(int i = 0; i < orders.size(); i++) {
 			if(orderID == orders.get(i).getOrderID()) {
@@ -42,7 +57,10 @@ public class Theatre {
 			}
 		}
 	}
-    
+	
+    	/**
+	* find items in dynamic arrays
+	*/
     public Order findOrder(int orderID, String email) {
     	for(int i = 0; i < orders.size(); i++) {
 			if(orderID == orders.get(i).getOrderID() && email == orders.get(i).getEmail()) {
@@ -74,7 +92,9 @@ public class Theatre {
     	return null;
     }
     
-    
+    /**
+    *Singleton ctor
+    */
     private Theatre(int testIntRemoveLater) {
         MovieDatabase theatredb = new MovieDatabase();
         movies = theatredb.readMovies();
@@ -87,7 +107,7 @@ public class Theatre {
         loginserver = UserController.getLoginInstance();
     }        
     
-    
+    //getters
     public static Theatre getTheatre() {
         if (theatre == null) {
             theatre = new Theatre();
@@ -114,7 +134,10 @@ public class Theatre {
         }
         return early;
     }
-
+	/**
+	* Updated seatmap after order cancellation
+	*
+	*/
 	public void updateSeatmap(Order order){
 		Movie movie = null;
 		Showtime st = null;
