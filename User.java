@@ -1,3 +1,9 @@
+/**
+* User object for registered patrons
+* Holds orders and user information
+*
+*/
+
 import java.io.FileNotFoundException;
 import java.lang.String;
 import java.time.LocalDate;
@@ -14,9 +20,15 @@ public class User{
     private boolean isPaid;
     private LocalDate renewalDate;
     private List<Order> orders;
-
+	
+	/**
+	* default ctor
+	*/
     public User(){ }
-
+	
+	/**
+	*ctor to re-init users from database
+	*/
     public User(String n, String pass, String ccn, String addr, String email, boolean isPaid, String renDate) {
         this.name = n;
         this.password = pass;
@@ -28,9 +40,8 @@ public class User{
         checkRenewal();
         this.orders = new ArrayList<Order>();
     }
-
-    //add to database
-
+	
+	//getters
     public String getName() {
         return this.name;
     }
@@ -62,7 +73,8 @@ public class User{
     public List<Order> getOrders() {
         return this.orders;
     }
-
+	
+	//setters
     public void setName(String name) {
         this.name = name;
     }
@@ -110,12 +122,21 @@ public class User{
 		System.out.println(creditCardNum);
 		System.out.println(renewalDate);
 	}
-
+	
+	/**
+	*add orders to dynamic arrays and DB
+	*
+	*/
     public void addToDB(){      
         UserController uc = UserController.getLoginInstance();
         uc.signUp(this);
     }
-
+	
+	/**
+	* cancel user order
+	*
+	* @param id 	ID to find order to cancel
+	*/
     public void cancelOrder(int id) throws FileNotFoundException {
         for(Order o : orders){
             if(o.getOrderID() == id){
@@ -124,12 +145,20 @@ public class User{
             }
         }
     }
-
+	
+	/**
+	* if user hasn't paid, make transaction and update paid flag
+	* also updates renew date for next year
+	*
+	*/
     public void payAnnualFee(){
         this.isPaid = true;
         this.renewalDate = LocalDate.now().plusYears(1);
     }
-
+	
+	/**
+	* check if user has paid annual fee
+	*/
     private void checkRenewal(){
         if(this.renewalDate.isBefore(LocalDate.now())){
             this.isPaid = false;
