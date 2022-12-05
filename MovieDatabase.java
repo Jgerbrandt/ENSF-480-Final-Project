@@ -164,9 +164,9 @@ class MovieDatabase implements FileOperations {
 			String query = "SELECT * FROM ticket WHERE OrderID IN (SELECT OrderID FROM orders WHERE OrderID = ?)";
 			Connection con = initializeConnection();
 			PreparedStatement selectTickets = con.prepareStatement(query);
-			String query = "SELECT * FROM showtime WHERE ShowtimeID IN (SELECT ShowtimeID FROM showtime WHERE ShowtimeID = ?)";
+			String query2 = "SELECT * FROM showtime WHERE ShowtimeID IN (SELECT ShowtimeID FROM showtime WHERE ShowtimeID = ?)";
 			Connection con2 = initializeConnection();
-			PreparedStatement selectShowtime = con2.prepareStatement(query);
+			PreparedStatement selectShowtime = con2.prepareStatement(query2);
 			while (results.next()) {
 				int orderID = results.getInt("OrderID");
 				Order order = new Order(orderID, results.getString("Email"), results.getDouble("Price"), results.getString("RefundDate"));
@@ -176,6 +176,7 @@ class MovieDatabase implements FileOperations {
 					int showtimeID = tickets.getInt("ShowtimeID");
 					selectShowtime.setInt(1, showtimeID);
 					ResultSet showtime = selectShowtime.executeQuery();
+					showtime.next();
 					order.addTicket(tickets.getInt("TicketID"),
 					showtime.getString("MovieName"),
 					showtime.getInt("Screen"),
