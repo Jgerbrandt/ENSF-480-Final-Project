@@ -23,9 +23,7 @@ public class User{
         this.email = email;
         this.isPaid = isPaid;
         setRenewalDate(renDate);
-        if(this.renewalDate.isBefore(LocalDate.now())){
-            this.isPaid = false;
-        }
+        checkRenewal();
         this.orders = new ArrayList<Order>();
     }
 
@@ -124,5 +122,11 @@ public class User{
     public void payAnnualFee(){
         this.isPaid = true;
         this.renewalDate = LocalDate.now().plusYears(1);
+    }
+
+    private void checkRenewal(){
+        if(this.renewalDate.isBefore(LocalDate.now())){
+            this.isPaid = false;
+        }
     }
 }
