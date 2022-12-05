@@ -88,7 +88,7 @@ class MovieDatabase implements FileOperations {
 					movie.addShowtime(showtimes.getInt("ShowtimeID"),
 					showtimes.getInt("Screen"),
 					showtimes.getString("Date"),
-					showtimes.getString("Time"));
+					showtimes.getString("Time"), movie.getReleaseDate());
 				}
 				movies.add(movie);
 			}
@@ -101,7 +101,7 @@ class MovieDatabase implements FileOperations {
 		return movies;
 	}
 	
-	public void addTicketToDB(Ticket ticket, orderID) {
+	public void addTicketToDB(Ticket ticket, int orderID) {
 		try {
 			String query = "INSERT INTO ticket VALUES (?,?,?,?,?)";
 			Connection con = initializeConnection();
@@ -133,10 +133,10 @@ class MovieDatabase implements FileOperations {
 			closeConnection(con);
 			Iterator<Ticket> tickets = order.getTickets().iterator();
 			while (tickets.hasNext()) {
-				addTicketToDB(ticket.next(), order.getOrderID());	
+				addTicketToDB(tickets.next(), order.getOrderID());	
 			}
 		} catch (SQLException ex) {
-			System.out.println("Could not insert order " + orderID);
+			System.out.println("Could not insert order " + order.getOrderID());
 		}	
 	}
 	
@@ -164,9 +164,9 @@ class MovieDatabase implements FileOperations {
 			String query = "SELECT * FROM ticket WHERE OrderID IN (SELECT OrderID FROM orders WHERE OrderID = ?)";
 			Connection con = initializeConnection();
 			PreparedStatement selectTickets = con.prepareStatement(query);
-			String query = "SELECT * FROM showtime WHERE ShowtimeID IN (SELECT ShowtimeID FROM showtime WHERE ShowtimeID = ?)";
+			String query2 = "SELECT * FROM showtime WHERE ShowtimeID IN (SELECT ShowtimeID FROM showtime WHERE ShowtimeID = ?)";
 			Connection con2 = initializeConnection();
-			PreparedStatement selectShowtime = con2.prepareStatement(query);
+			PreparedStatement selectShowtime = con2.prepareStatement(query2);
 			while (results.next()) {
 				int orderID = results.getInt("OrderID");
 				Order order = new Order(orderID, results.getString("Email"), results.getDouble("Price"), results.getString("RefundDate"));
@@ -176,6 +176,7 @@ class MovieDatabase implements FileOperations {
 					int showtimeID = tickets.getInt("ShowtimeID");
 					selectShowtime.setInt(1, showtimeID);
 					ResultSet showtime = selectShowtime.executeQuery();
+					showtime.next();
 					order.addTicket(tickets.getInt("TicketID"),
 					showtime.getString("MovieName"),
 					showtime.getInt("Screen"),
