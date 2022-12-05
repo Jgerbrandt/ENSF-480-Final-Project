@@ -76,4 +76,8 @@ public class SeatingMap{
             return false;
         }
     }
+
+    public void cancelSeats(int col, int row) {
+        this.seats[col][row] = 0;
+    }
 }
