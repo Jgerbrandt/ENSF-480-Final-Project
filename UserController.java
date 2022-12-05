@@ -1,3 +1,7 @@
+/*
+* Singleton controller class to manage User DB boundary class
+*/ 
+
 import java.util.*;
 import java.util.regex.*;
 import java.time.LocalDate;
@@ -7,12 +11,18 @@ public class UserController{
     private static UserController loginInstance; 
     private List<User> users;
     UserDatabase userdb;
-
+	
+	/**
+	* singleton ctor
+	*/
     private UserController(){
 		userdb = new UserDatabase();
         users = userdb.readRegisteredUsers();
     }
-
+	
+	/**
+	* Singleton getter only instance
+	*/
     public static UserController getLoginInstance(){
         if(loginInstance == null){
             loginInstance = new UserController();
@@ -20,7 +30,7 @@ public class UserController{
         return loginInstance;
     }
 
-    /*
+    /**
      * takes a user object with just user and password
      * iterate through to match, return the correct user
      */
@@ -36,7 +46,7 @@ public class UserController{
 		return user;
     }
 
-    /*
+    /**
      * parse the user arguments
      */
     public User parseInput(User user) {
@@ -64,7 +74,9 @@ public class UserController{
 		}
 		return user;		
 	}
-     //take user without dates, return registered with dates
+     /**
+     * take user without dates, return registered with dates
+     */
     public User signUp(User user){
 		LocalDate lt = LocalDate.now();
 		String annualDate = lt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
