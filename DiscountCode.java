@@ -24,7 +24,7 @@ public class DiscountCode {
     }
 	
     public int getCode(){ return this.code; }
-    public double getDiscount(){ return this.discountCode; }
+    public double getDiscount(){ return this.discount; }
     public String getExp(){ 
         String formattedDate = this.exp.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         return formattedDate;
