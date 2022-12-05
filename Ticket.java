@@ -1,31 +1,40 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Ticket {
     private int ticketID;
     private int orderID;
     private String movieName;
+    private int screen;
     private int seatColumn;
     private int seatRow;
+    private String time;
+    private LocalDate showDate;
     private int showtimeID;
-    private Showtime showtime;
     public static int TicketIDCounter;
 
-    public Ticket(int id, int orderID, int col, int row, int showtimeID) {
-        this.ticketID = id;
+    public Ticket(int ticketID, int orderID, String movie, int screen, int col, int row, String time, String date, int showtimeID) {
+        this.ticketID = ticketID;
         this.orderID = orderID;
+        this.movieName = movie;
+        this.screen = screen;
         this.seatColumn = col;
         this.seatRow = row;
+        this.time = time;
+        this.showDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.showtimeID = showtimeID;
     }
 
     public void createTicket() throws FileNotFoundException {
+        String formattedDate = this.showDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         PrintWriter ticket = new PrintWriter("Ticket.txt");
 
-        ticket.println("Movie: " + getMovieName());
-        ticket.println("Screen: " + showtime.getScreen());
-        ticket.println("Date: " + showtime.getShowDate());
-        ticket.println("Time: " + showtime.getTime());
+        ticket.println("Movie: " + this.movieName);
+        ticket.println("Screen: " + this.screen);
+        ticket.println("Date: " + formattedDate);
+        ticket.println("Time: " + this.time);
 
         ticket.close();
     }
@@ -46,12 +55,12 @@ public class Ticket {
         return this.seatRow;
     }
 
-    public int getshowtimeID() {
-        return this.showtimeID;
+    public LocalDate getShowDate() {
+        return this.showDate;
     }
 
-    public Showtime getShowtime() {
-        return this.showtime;
+    public int getshowtimeID() {
+        return this.showtimeID;
     }
 
     public void setTicketID() {
@@ -74,7 +83,4 @@ public class Ticket {
         this.showtimeID = showtimeID;
     }
 
-    public void setShowtime(Showtime showtime) {
-        this.showtime = showtime;
-    }
 }
