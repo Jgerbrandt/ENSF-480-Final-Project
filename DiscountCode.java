@@ -9,7 +9,7 @@ public class DiscountCode {
     private LocalDate exp;
 	
     public DiscountCode(){}
-    
+
 	public DiscountCode(double discount) {
 		this.code = CodeIDCounter;
         CodeIDCounter++;

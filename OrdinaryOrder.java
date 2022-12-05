@@ -34,7 +34,9 @@ public class OrdinaryOrder extends Order {
 
     @Override
     public void payForOrder() throws FileNotFoundException {
+        Theatre theatre = Theatre.getTheatre();
         MovieDatabase movie = new MovieDatabase();
+        theatre.addOrder(this);
         movie.addOrderToDB(this); 
         Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this);
         receipt.createOrderReceipt();
@@ -42,11 +44,14 @@ public class OrdinaryOrder extends Order {
 
     @Override 
     public void cancelOrder() throws FileNotFoundException {
+        Theatre theatre = Theatre.getTheatre();
         MovieDatabase movie = new MovieDatabase();
+        theatre.removeOrder(this.OrderID);
         movie.removeOrder(this.OrderID);
         this.discountCode = new DiscountCode(discount);
         Receipt receipt = new OrdinaryReceipt(this.tickets, this.email, this, this.discountCode);
         receipt.createRefundReceipt();
+        theatre.addDiscount(this.discount);
         movie.addDiscountCodeToDB(this.discountCode);
     }
 }
