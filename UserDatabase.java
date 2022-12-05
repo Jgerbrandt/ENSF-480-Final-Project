@@ -44,6 +44,12 @@ public class UserDatabase implements FileOperations{
             String query = "SELECT * FROM orders WHERE Email IN (SELECT Email FROM orders WHERE Email = ?)";
             Connection con = initializeConnection();
             PreparedStatement selectOrders = con.prepareStatement(query);
+	    String query = "SELECT * FROM showtime WHERE ShowtimeID IN (SELECT ShowtimeID FROM showtime WHERE ShowtimeID = ?)";
+	    Connection con2 = initializeConnection();
+	    PreparedStatement selectShowtime = con2.prepareStatement(query);
+	    String query = "SELECT * FROM ticket WHERE OrderID IN (SELECT OrderID FROM orders WHERE OrderID = ?)";
+	    Connection con3 = initializeConnection();
+	    PreparedStatement selectTickets = con3.prepareStatement(query);
             while (results.next()) {
                 String email = results.getString("Email");
                 User user = new User(results.getString("Name"),
@@ -58,6 +64,21 @@ public class UserDatabase implements FileOperations{
                 while (orders.next()) {
                     Order order = new Order(orders.getInt("OrderID"),
                     orders.getString("Email"), orders.getDouble("Price"), orders.getString("RefundDate"));
+		    selectTickets.setInt(1, orders.getInt("OrderID"));
+		    ResultSet tickets = selectTickets.executeQuery();
+		    while (tickets.next()) {
+			int showtimeID = tickets.getInt("ShowtimeID");
+			selectShowtime.setInt(1, showtimeID);
+			ResultSet showtime = selectShowtime.executeQuery();
+			order.addTicket(tickets.getInt("TicketID"),
+			showtime.getString("MovieName"),
+			showtime.getInt("Screen"),
+			tickets.getInt("SColumn"),
+			tickets.getInt("SRow"),
+			showtime.getString("Time"),
+			showtime.getString("Date"),
+			showtimeID);			      
+		    }
                     user.addOrder(order);
                 }
                 userlist.add(user); 
