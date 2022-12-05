@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class Order {
     protected int OrderID;
@@ -28,6 +29,7 @@ public class Order {
     }
 
     public Order(int OrderID, String email, double price, String rd) {
+        this.tickets = new ArrayList<Ticket>();
         this.OrderID = OrderID;
         this.email = email;
         this.price = price;
