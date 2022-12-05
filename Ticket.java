@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Ticket {
     private int ticketID;
-    private int orderID;
     private String movieName;
     private int screen;
     private int seatColumn;
@@ -15,9 +14,10 @@ public class Ticket {
     private int showtimeID;
     public static int TicketIDCounter;
 
-    public Ticket(int ticketID, int orderID, String movie, int screen, int col, int row, String time, String date, int showtimeID) {
+    public Ticket(){}
+
+    public Ticket(int ticketID, String movie, int screen, int col, int row, String time, String date, int showtimeID) {
         this.ticketID = ticketID;
-        this.orderID = orderID;
         this.movieName = movie;
         this.screen = screen;
         this.seatColumn = col;
