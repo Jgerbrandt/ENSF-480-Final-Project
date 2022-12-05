@@ -1,3 +1,9 @@
+/**
+* OrdinaryReceipt implements Receipt interface
+* creates text file of receipt info including generated
+* DiscountCode for cancelled OrdinaryOrder
+*/
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -9,13 +15,28 @@ public class OrdinaryReceipt implements Receipt {
     private String email;
     private OrdinaryOrder order;
     private DiscountCode discountCode;
-
+    
+    /**
+    * Create new receipt object as for creating order receipt
+    *
+    * @param t  list of tickets included in order
+    * @param em user email tied to order
+    * @param o  order in which recipt is being made for
+    */
     public OrdinaryReceipt(List<Ticket> t, String em, OrdinaryOrder o){
         this.tickets = t;
         this.email = em;
         this.order = o;
     }
 
+    /**
+    * Create new receipt object as for creating refund receipt
+    *
+    * @param t  list of tickets included in order
+    * @param em user email tied to order
+    * @param o  order in which recipt is being made for
+    * @param discount code associated with refund when order is cancelled
+    */
     public OrdinaryReceipt(List<Ticket> t, String em, OrdinaryOrder o, DiscountCode dc){
         this.tickets = t;
         this.email = em;
@@ -23,6 +44,10 @@ public class OrdinaryReceipt implements Receipt {
         this.discountCode = dc;
     }
     
+    /**
+    * create text file to send to user with order confimration details
+    *
+    */
     @Override
     public void createOrderReceipt() throws FileNotFoundException {
         PrintWriter orderReceipt = new PrintWriter("OrderReceipt.txt");
@@ -38,7 +63,11 @@ public class OrdinaryReceipt implements Receipt {
 
         orderReceipt.close();
     }
-
+    
+    /**
+    * create text file to send to user with order cancellation details
+    *
+    */
     @Override
     public void createRefundReceipt() throws FileNotFoundException {
         LocalDate today = LocalDate.now();
