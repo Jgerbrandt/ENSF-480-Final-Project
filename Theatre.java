@@ -116,9 +116,9 @@ public class Theatre {
     }
 
 	public void updateSeatmap(Order order){
-		Movie movie;
-		Showtime st;
-		SeatingMap map;
+		Movie movie = null;
+		Showtime st = null;
+		SeatingMap map = null;
 		for(int i = 0; i < movies.size(); i++){
 			if(movies.get(i).getTitle().equals(order.getTickets().get(0).getMovieName())){
 				movie = movies.get(i);
