@@ -1,3 +1,10 @@
+/**
+* Controller class to manage available seats for each showtime
+* Manages capacity states and whether booking is available
+* Theatre seating map represented by int[][] of 0s (empty seat) or 1s (full seat)
+*
+*/
+
 import java.time.LocalDate;
 
 public class SeatingMap{
@@ -7,7 +14,14 @@ public class SeatingMap{
     private boolean tenPercentSold = false; 
     private boolean soldOut = false;
     private static double price = 10;
-
+    
+    /**
+    * Ctor for all seating maps
+    * fills array with matrix of 0s (no tickets booked yet)
+    * 
+    * @param rd     released date for associated movie to determine
+                    whether the 10% full condition applies
+    */
     public SeatingMap(LocalDate rd){
         this.releaseDate = rd;
         this.earlyAccess = rd.minusWeeks(1);
@@ -18,12 +32,16 @@ public class SeatingMap{
             }
         }
     }
-
+    
+    //getters
     public int[][] getSeats() { return this.seats; }
     public boolean getTenPercent() {return this.tenPercentSold; }
     public boolean getSoldOut() { return this.soldOut; }
     public static double getPrice(){ return price; }
-
+    
+    /**
+    * sets capacity flag if all seats are booked after early access period
+    */
     public void checkSoldOut(){
         int count = 0;
         for(int i = 0; i < seats.length; i++){
@@ -40,7 +58,10 @@ public class SeatingMap{
             this.soldOut = false;
         }
     }
-
+    
+    /**
+    * sets capacity flag if 10% of seats are booked in early access period
+    */
     public void checkTenPercent(){
         int count = 0;
         for(int i = 0; i < seats.length; i++){
@@ -57,7 +78,12 @@ public class SeatingMap{
             this.tenPercentSold = false;
         }
     }
-
+    
+    /**
+    * updates seat map if when user selects seats
+    *
+    * @param seatPair   value of seat column and row to be booked
+    */
     public void buySeats(int[] seatPair) {
         this.seats[seatPair[0]][seatPair[1]] = 1;
         if(isEarly()){
@@ -67,7 +93,13 @@ public class SeatingMap{
             checkSoldOut();
         }
     }
-
+    
+    /**
+    *   checks if showing movie is in early access period
+    *
+    * @return whether movie is early
+    
+    */
     public boolean isEarly(){
         if (LocalDate.now().isAfter(this.earlyAccess) && LocalDate.now().isBefore(this.releaseDate)){
             return true;
@@ -76,7 +108,13 @@ public class SeatingMap{
             return false;
         }
     }
-
+    
+    /**
+    * updates seat map if user cancels order
+    *
+    * @param col   value of canceled seat column
+    * @param row    value of cancelled seat row
+    */
     public void cancelSeats(int col, int row) {
         this.seats[col][row] = 0;
     }
