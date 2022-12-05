@@ -94,14 +94,18 @@ public class Order {
     }
 
     public void payForOrder() throws FileNotFoundException {
+        Theatre theatre = Theatre.getTheatre();
         MovieDatabase movie = new MovieDatabase();
+        theatre.addOrder(this);
         movie.addOrderToDB(this); 
         Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
         receipt.createOrderReceipt();
     }
 
     public void cancelOrder() throws FileNotFoundException {
+        Theatre theatre = Theatre.getTheatre();
         MovieDatabase movie = new MovieDatabase();
+        theatre.removeOrder(this.OrderID);
         movie.removeOrder(this.OrderID);
         Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
         receipt.createRefundReceipt();
