@@ -60,6 +60,12 @@ public class SeatingMap{
 
     public void buySeats(int[] seatPair) {
         this.seats[seatPair[0]][seatPair[1]] = 1;
+        if(isEarly()){
+            checkTenPercent();
+        }
+        else{
+            checkSoldOut();
+        }
     }
 
     public boolean isEarly(){
@@ -69,5 +75,9 @@ public class SeatingMap{
         else {
             return false;
         }
+    }
+
+    public void cancelSeats(int col, int row) {
+        this.seats[col][row] = 0;
     }
 }
