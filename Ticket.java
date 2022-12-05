@@ -63,6 +63,14 @@ public class Ticket {
         return this.showtimeID;
     }
 
+    public int getScreen(){
+        return this.screen;
+    }
+
+    public String getTime(){
+        return this.time;
+    }
+
     public void setTicketID() {
         this.ticketID = TicketIDCounter++;
     }

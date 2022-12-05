@@ -20,9 +20,9 @@ public class RegisteredReceipt implements Receipt {
         PrintWriter orderReceipt = new PrintWriter("OrderReceipt.txt");
         
         orderReceipt.println("Movie: " + tickets.get(0).getMovieName());
-        orderReceipt.println("Screen: " + tickets.get(0).getShowtime().getScreen());
-        orderReceipt.println("Date: " + tickets.get(0).getShowtime().getShowDate());
-        orderReceipt.println("Time: " + tickets.get(0).getShowtime().getTime());
+        orderReceipt.println("Screen: " + tickets.get(0).getScreen());
+        orderReceipt.println("Date: " + tickets.get(0).getShowDate());
+        orderReceipt.println("Time: " + tickets.get(0).getTime());
         orderReceipt.println("Email: " + email);
         orderReceipt.println("Tickets: " + tickets.size());
         orderReceipt.println("Price: " + order.getPrice());
