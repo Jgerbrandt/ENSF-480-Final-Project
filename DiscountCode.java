@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-class DiscountCode {
+public class DiscountCode {
     public static int CodeIDCounter;
 	private int code;
 	private double discount;
