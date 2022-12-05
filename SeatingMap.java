@@ -60,6 +60,12 @@ public class SeatingMap{
 
     public void buySeats(int[] seatPair) {
         this.seats[seatPair[0]][seatPair[1]] = 1;
+        if(isEarly()){
+            checkTenPercent();
+        }
+        else{
+            checkSoldOut();
+        }
     }
 
     public boolean isEarly(){
