@@ -111,7 +111,7 @@ public class User{
 		System.out.println(renewalDate);
 	}
 
-    public void addToDB(){
+    public void addToDB(){      
         UserController uc = UserController.getLoginInstance();
         uc.signUp(this);
     }
