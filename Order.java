@@ -102,13 +102,19 @@ public class Order {
         receipt.createOrderReceipt();
     }
 
-    public void cancelOrder() throws FileNotFoundException {
+    public boolean cancelOrder() throws FileNotFoundException {
         Theatre theatre = Theatre.getTheatre();
         MovieDatabase movie = new MovieDatabase();
-        theatre.removeOrder(this.OrderID);
-        movie.removeOrder(this.OrderID);
-        Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
-        receipt.createRefundReceipt();
+        if(!this.refundDate.isBefore(LocalDate.now())){
+            return false;
+        }
+        else {
+            theatre.removeOrder(this.OrderID);
+            movie.removeOrder(this.OrderID);
+            Receipt receipt = new RegisteredReceipt(this.tickets, this.email, this);
+            receipt.createRefundReceipt();
+            return true;
+        }
     }
 
 }
