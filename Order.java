@@ -142,6 +142,7 @@ public class Order {
     * order is removed from dynamic arrays and DB
     * order confirmation receipt is sent to user
     *
+    * @return if order is cancelable
     */
     public boolean cancelOrder() throws FileNotFoundException {
         Theatre theatre = Theatre.getTheatre();
