@@ -119,18 +119,20 @@ public class Theatre {
 		Movie movie;
 		Showtime st;
 		SeatingMap map;
-		for(Movie m : movies){
-			if(m.getTitle().equals(order.getTickets().get(0).getMovieName())){
-				movie = m;
+		for(int i = 0; i < movies.size(); i++){
+			if(movies.get(i).getTitle().equals(order.getTickets().get(0).getMovieName())){
+				movie = movies.get(i);
+				break;
 			}
 		}
-		for(Showtime s : movie.getShowtimes()){
-			if(order.getTickets().get(0).getshowtimeID() == s.getID()){
-				st = s;
+		for(int i = 0; i < movie.getShowtimes().size(); i++){
+			if(order.getTickets().get(0).getshowtimeID() == movie.getShowtime(i).getID()){
+				st = movie.getShowtime(i);
+				break;
 			}
 		}
-		for(Ticket t : order.getTickets()){
-			st.getSeats().cancelSeats(t.getSeatColumn(), t.getSeatRow());
+		for(int i = 0; i < order.getTickets().size(); i++){
+			st.getSeats().cancelSeats(order.getTickets().get(i).getSeatColumn(), order.getTickets().get(i).getSeatRow());
 		}
 	}
 }
