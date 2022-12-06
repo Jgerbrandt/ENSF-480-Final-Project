@@ -5,7 +5,6 @@
 * Singleton design to ensure only instance
 */
 
-package apiPackage.model;
 
 import java.util.*;
 
