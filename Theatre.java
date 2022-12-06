@@ -2,7 +2,7 @@ package apiPackage.model;
 
 import java.util.*;
 
-import java.util.*;
+
 
 
 public class Theatre {
